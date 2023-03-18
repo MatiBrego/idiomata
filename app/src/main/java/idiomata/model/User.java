@@ -25,4 +25,20 @@ public class User {
         this.email = email;
         this.language = language;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
 }

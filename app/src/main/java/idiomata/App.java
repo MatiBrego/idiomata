@@ -3,9 +3,8 @@
  */
 package idiomata;
 
-import idiomata.model.User;
+import idiomata.repository.UserRepository;
 
-import javax.persistence.*;
 
 public class App {
     public String getGreeting() {
@@ -15,20 +14,10 @@ public class App {
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
 
-        final EntityManagerFactory factory = Persistence.createEntityManagerFactory("idiomata");
+        UserRepository repo = new UserRepository();
 
-        final EntityManager entityManager = factory.createEntityManager();
+        repo.createUser("Lionel", "queMiras@gmail.com", "French");
 
-        final EntityTransaction transaction = entityManager.getTransaction();
-
-        transaction.begin();
-        final User messi = new User("lionel", "messi@gmail.com", "Italian");
-
-        entityManager.persist(messi);
-
-        transaction.commit();
-
-        entityManager.close();
-
+        System.out.println(repo.findUserById(1).getFirstName());
     }
 }

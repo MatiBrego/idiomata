@@ -9,6 +9,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cors())
 
+app.use('/api', router)
+
 app.listen(3001, ()=>{
     console.log('[server]: Server is running at http://localhost:3001')
 })

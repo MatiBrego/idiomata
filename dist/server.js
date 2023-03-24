@@ -12,7 +12,6 @@ app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use((0, cors_1.default)());
 app.use('/api', router_1.router);
-app.get('/', (req, res) => res.send('Hi mom'));
 app.listen(3001, () => {
     console.log('[server]: Server is running at http://localhost:3001');
 });

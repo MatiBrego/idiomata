@@ -31,5 +31,29 @@ class UserRepository {
             });
         });
     }
+    changePassword(userId, newPassword) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.db.user.update({
+                where: {
+                    id: userId
+                },
+                data: {
+                    password: newPassword
+                }
+            });
+        });
+    }
+    changeEmail(userId, newEmail) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.db.user.update({
+                where: {
+                    id: userId
+                },
+                data: {
+                    email: newEmail
+                }
+            });
+        });
+    }
 }
 exports.UserRepository = UserRepository;

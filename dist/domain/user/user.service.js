@@ -24,5 +24,15 @@ class UserService {
             yield this.repository.delete(userId);
         });
     }
+    changeUsersPassword(userId, newPassword) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.repository.changePassword(userId, newPassword);
+        });
+    }
+    changeUsersEmail(userId, newEmail) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.repository.changeEmail(userId, newEmail);
+        });
+    }
 }
 exports.UserService = UserService;

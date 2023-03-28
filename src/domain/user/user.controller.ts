@@ -25,3 +25,21 @@ userRouter.delete('/:userId',async (req, res) => {
 
     res.send("User " + userId + " was deleted")
 })
+
+userRouter.put('/updatePassword/:userId', async (req, res) => {
+    const userId = req.params.userId;
+
+    const newPassword = req.body.password;
+
+    await userService.changeUsersPassword(Number(userId), newPassword);
+    res.send("Password updated")
+})
+
+userRouter.put('/updateEmail/:userId', async (req, res) => {
+    const userId = req.params.userId;
+
+    const newEmail = req.body.email;
+
+    await userService.changeUsersEmail(Number(userId), newEmail);
+    res.send("Email updated")
+})

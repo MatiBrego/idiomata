@@ -20,4 +20,26 @@ export class UserRepository {
             }
         })
     }
+
+    async changePassword(userId: number, newPassword: string): Promise<void>{
+        await this.db.user.update({
+            where: {
+                id: userId
+            },
+            data:{
+                password: newPassword
+            }
+        })
+    }
+
+    async changeEmail(userId: number, newEmail: string): Promise<void>{
+        await this.db.user.update({
+            where: {
+                id: userId
+            },
+            data:{
+                email: newEmail
+            }
+        })
+    }
 }

@@ -11,4 +11,12 @@ export class UserService{
     async deleteUser(userId: number): Promise<void>{
         await this.repository.delete(userId);
     }
+
+    async changeUsersPassword(userId: number, newPassword: string): Promise<void>{
+        await this.repository.changePassword(userId, newPassword);
+    }
+
+    async changeUsersEmail(userId: number, newEmail: string): Promise<void>{
+        await this.repository.changeEmail(userId, newEmail);
+    }
 }

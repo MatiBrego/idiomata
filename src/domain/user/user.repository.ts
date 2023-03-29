@@ -42,4 +42,32 @@ export class UserRepository {
             }
         })
     }
+
+    async getUserById(userId:number): Promise<UserDto | null> {
+        const userResult = await this.db.user.findUnique({
+            where:{
+                id: userId
+            }
+        })
+        if(userResult){
+            return new UserDto(userResult);
+        }
+        else{
+            return null;
+        }
+    }
+
+    async getUserByEmail(userEmail:string): Promise<UserDto | null> {
+        const userResult = await this.db.user.findUnique({
+            where:{
+                email: userEmail
+            }
+        })
+        if(userResult){
+            return new UserDto(userResult);
+        }
+        else{
+            return null;
+        }
+    }
 }

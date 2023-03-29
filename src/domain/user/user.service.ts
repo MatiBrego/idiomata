@@ -19,4 +19,12 @@ export class UserService{
     async changeUsersEmail(userId: number, newEmail: string): Promise<void>{
         await this.repository.changeEmail(userId, newEmail);
     }
+
+    async getUserById(userId: number){
+        await this.repository.getUserById(userId);
+    }
+
+    async getUserByEmail(userEmail: string){
+        await this.repository.getUserByEmail(userEmail);
+    }
 }

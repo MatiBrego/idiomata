@@ -34,5 +34,15 @@ class UserService {
             yield this.repository.changeEmail(userId, newEmail);
         });
     }
+    getUserById(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getUserById(userId);
+        });
+    }
+    getUserByEmail(userEmail) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getUserByEmail(userEmail);
+        });
+    }
 }
 exports.UserService = UserService;

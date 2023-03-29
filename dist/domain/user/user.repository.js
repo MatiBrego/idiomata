@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
+const user_dto_1 = require("./user.dto");
 class UserRepository {
     constructor(db) {
         this.db = db;
@@ -53,6 +54,36 @@ class UserRepository {
                     email: newEmail
                 }
             });
+        });
+    }
+    getUserById(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userResult = yield this.db.user.findUnique({
+                where: {
+                    id: userId
+                }
+            });
+            if (userResult) {
+                return new user_dto_1.UserDto(userResult);
+            }
+            else {
+                return null;
+            }
+        });
+    }
+    getUserByEmail(userEmail) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userResult = yield this.db.user.findUnique({
+                where: {
+                    email: userEmail
+                }
+            });
+            if (userResult) {
+                return new user_dto_1.UserDto(userResult);
+            }
+            else {
+                return null;
+            }
         });
     }
 }

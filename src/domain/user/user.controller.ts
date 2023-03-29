@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { db } from "../../utils/db";
+import { withAuth } from "../../utils/withAuth";
 import { UserDto } from "./user.dto";
 import { UserRepository } from "./user.repository";
 import { UserService } from "./user.service";

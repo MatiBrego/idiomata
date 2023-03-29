@@ -1,10 +1,10 @@
-import { UserDto } from "./user.dto";
+import { UserDto, UserInputDto } from "./user.dto";
 import { UserRepository } from "./user.repository";
 
 export class UserService{
     constructor(private readonly repository: UserRepository){}
 
-    async createUser(user: UserDto): Promise<UserDto>{
+    async createUser(user: UserInputDto): Promise<UserDto>{
         return await this.repository.create(user);
     }
 
@@ -20,11 +20,11 @@ export class UserService{
         await this.repository.changeEmail(userId, newEmail);
     }
 
-    async getUserById(userId: number){
-        await this.repository.getUserById(userId);
+    async getUserById(userId: number): Promise<UserDto | null>{
+        return await this.repository.getUserById(userId);
     }
 
-    async getUserByEmail(userEmail: string){
-        await this.repository.getUserByEmail(userEmail);
+    async getUserByEmail(userEmail: string): Promise<UserDto | null>{
+        return await this.repository.getUserByEmail(userEmail);
     }
 }

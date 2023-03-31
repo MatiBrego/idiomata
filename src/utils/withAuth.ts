@@ -9,12 +9,13 @@ export function withAuth(req: Request, res: Response, next: any){
           .send({ message: "Authorization header missing" });
       }
     
-      var token = req.headers.authorization.split(" ")[1];
-      var payload = jwt.decode(token, "SuperSecretPassword");
-   
-      if (payload.exp <= moment().unix()) {
-        return res.status(401).send({ message: "Token Expired" });
+      try {
+        var token = req.headers.authorization.split(" ")[1];
+        var payload = jwt.decode(token, "SuperSecretPassword");  
+      } catch (error) {
+        return res.status(401).send({message: "Invalid Token"})
       }
+
     
       res.locals.context = payload.sub;
       next();

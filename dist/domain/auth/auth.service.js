@@ -26,7 +26,6 @@ class AuthService {
         });
     }
     generateToken(user) {
-        console.log(user);
         var payload = {
             sub: user.id,
             iat: (0, moment_1.default)().unix(),

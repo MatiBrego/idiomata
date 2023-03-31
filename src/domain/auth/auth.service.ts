@@ -13,7 +13,6 @@ export class AuthService{
     }
 
     generateToken(user: UserDto): String{
-        console.log(user)
         var payload = {
             sub: user.id,
             iat: moment().unix(),

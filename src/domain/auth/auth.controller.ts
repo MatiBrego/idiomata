@@ -20,6 +20,7 @@ authRouter.post('/login', async (req, res) => {
     }
 })
 
-authRouter.get('/private', withAuth, (req, res) => {
-    res.status(200).json({userId: res.locals.context})
+//This endpoint can be used to check if token is still valid
+authRouter.get('/', withAuth, (req, res) => {
+    res.status(200).send("Token is valid")
 })

@@ -25,6 +25,7 @@ exports.authRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0
         res.status(200).json({ token: authService.generateToken(user) });
     }
 }));
-exports.authRouter.get('/private', withAuth_1.withAuth, (req, res) => {
-    res.status(200).json({ userId: res.locals.context });
+//This endpoint can be used to check if token is still valid
+exports.authRouter.get('/', withAuth_1.withAuth, (req, res) => {
+    res.status(200).send("Token is valid");
 });

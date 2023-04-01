@@ -2,6 +2,7 @@ import jwt from "jwt-simple"
 import moment from "moment";
 import { UserDto } from "../user/user.dto";
 import { UserService } from "../user/user.service";
+import { validTokens } from "../../utils/withAuth";
 
 export class AuthService{
 
@@ -17,7 +18,11 @@ export class AuthService{
             sub: user.id,
             iat: moment().unix(),
             exp: moment().add(1, "days").unix(),
-          };
-          return jwt.encode(payload, "SuperSecretPassword");
+        };
+        const token = jwt.encode(payload, "SuperSecretPassword");
+        
+        //Add token to token list
+        validTokens.add(token)
+        return token;
     }
 }

@@ -1,22 +1,28 @@
 import { Request, Response } from "express";
 import jwt from "jwt-simple";
-import moment from "moment";
+
+//Save the tokens that are created to this list, in order to remove them if user logs out
+export const validTokens = new Set<String>();
 
 export function withAuth(req: Request, res: Response, next: any){
-    if (!req.headers.authorization) {
-        return res
-          .status(403)
-          .send({ message: "Authorization header missing" });
-      }
-    
-      try {
-        var token = req.headers.authorization.split(" ")[1];
-        var payload = jwt.decode(token, "SuperSecretPassword");  
-      } catch (error) {
-        return res.status(401).send({message: "Invalid Token"})
-      }
+  if (!req.headers.authorization) {
+      return res
+        .status(403)
+        .send({ message: "Authorization header missing" });
+  }
+  
+  try {
+    var token = req.headers.authorization.split(" ")[1];
+    var payload = jwt.decode(token, "SuperSecretPassword");
+  } catch (error) {
+    return res.status(401).send({message: "Invalid Token"})
+  }
 
-    
-      res.locals.context = payload.sub;
-      next();
+  //If token is not on the list, it is not valid
+  if(!validTokens.has(token)){
+    return res.status(403).send({message: "Token no longer valid"})
+  }
+
+  res.locals.context = payload.sub;
+  next();
 }

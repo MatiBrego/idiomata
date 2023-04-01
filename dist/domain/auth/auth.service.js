@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const jwt_simple_1 = __importDefault(require("jwt-simple"));
 const moment_1 = __importDefault(require("moment"));
+const withAuth_1 = require("../../utils/withAuth");
 class AuthService {
     constructor(userService) {
         this.userService = userService;
@@ -31,7 +32,10 @@ class AuthService {
             iat: (0, moment_1.default)().unix(),
             exp: (0, moment_1.default)().add(1, "days").unix(),
         };
-        return jwt_simple_1.default.encode(payload, "SuperSecretPassword");
+        const token = jwt_simple_1.default.encode(payload, "SuperSecretPassword");
+        //Add token to token list
+        withAuth_1.validTokens.add(token);
+        return token;
     }
 }
 exports.AuthService = AuthService;

@@ -15,15 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const jwt_simple_1 = __importDefault(require("jwt-simple"));
 const moment_1 = __importDefault(require("moment"));
-const withAuth_1 = require("../../utils/withAuth");
+const auth_1 = require("../../utils/auth");
 class AuthService {
     constructor(userService) {
         this.userService = userService;
     }
     loginUser(loginInput) {
         return __awaiter(this, void 0, void 0, function* () {
-            //TODO Should check password 
-            return this.userService.getUserByEmail(loginInput.email);
+            const user = yield this.userService.getUserByEmail(loginInput.email);
+            if (user && loginInput.password == user.password) {
+                return user;
+            }
+            return null;
         });
     }
     generateToken(user) {
@@ -33,8 +36,7 @@ class AuthService {
             exp: (0, moment_1.default)().add(1, "days").unix(),
         };
         const token = jwt_simple_1.default.encode(payload, "SuperSecretPassword");
-        //Add token to token list
-        withAuth_1.validTokens.add(token);
+        auth_1.validTokens.add(token); //Add token to token list
         return token;
     }
 }

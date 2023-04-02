@@ -26,3 +26,16 @@ export function withAuth(req: Request, res: Response, next: any){
   res.locals.context = payload.sub;
   next();
 }
+
+export function removeAuth(req: Request, res: Response, next: any) {
+  if (!req.headers.authorization) {
+    return res
+      .status(403)
+      .send({ message: "Authorization header missing" });
+}
+
+  var token = req.headers.authorization.split(" ")[1]
+  validTokens.delete(token)
+
+  next()
+}

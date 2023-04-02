@@ -2,15 +2,19 @@ import jwt from "jwt-simple"
 import moment from "moment";
 import { UserDto } from "../user/user.dto";
 import { UserService } from "../user/user.service";
-import { validTokens } from "../../utils/withAuth";
+import { validTokens } from "../../utils/auth";
 
 export class AuthService{
 
     constructor(private readonly userService: UserService){}
 
     async loginUser(loginInput: loginInputDto): Promise<UserDto | null>{
-        //TODO Should check password 
-        return this.userService.getUserByEmail(loginInput.email)
+
+        const user = await this.userService.getUserByEmail(loginInput.email)
+        if (user && loginInput.password == user.password)  {
+            return user
+        }
+        return null;
     }
 
     generateToken(user: UserDto): String{
@@ -20,9 +24,7 @@ export class AuthService{
             exp: moment().add(1, "days").unix(),
         };
         const token = jwt.encode(payload, "SuperSecretPassword");
-        
-        //Add token to token list
-        validTokens.add(token)
+        validTokens.add(token) //Add token to token list
         return token;
     }
 }

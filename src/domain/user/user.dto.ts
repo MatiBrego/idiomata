@@ -4,6 +4,7 @@ export class UserDto{
     email: string
     password: string
     language: string
+    isAdmin?: boolean
 
     constructor(user: UserDto){
         this.id = user.id
@@ -11,6 +12,7 @@ export class UserDto{
         this.email = user.email
         this.password = user.password
         this.language = user.language
+        this.isAdmin = user.isAdmin
     }
 }
 

@@ -8,6 +8,7 @@ class UserDto {
         this.email = user.email;
         this.password = user.password;
         this.language = user.language;
+        this.isAdmin = user.isAdmin;
     }
 }
 exports.UserDto = UserDto;

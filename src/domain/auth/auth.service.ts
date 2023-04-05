@@ -12,6 +12,7 @@ export class AuthService{
     async loginUser(loginInput: loginInputDto): Promise<UserDto | null>{
 
         const user = await this.userService.getUserByEmail(loginInput.email)
+
         if (user && loginInput.password == user.password)  {
             return user
         }
@@ -31,11 +32,23 @@ export class AuthService{
 
     async loginAdmin(adminLoginInput: AdminLoginInputDto): Promise<UserDto | null>{
         
-        const admin = await this.userService.getAdminByEmail(adminLoginInput.email);
+        const admin = await this.userService.getUserByEmail(adminLoginInput.email); //Get user by email
 
-        if (admin && adminLoginInput.password == admin.password)  {
+        if (admin && adminLoginInput.password == admin.password  && admin.isAdmin)  { //Check if found, id password matches and if user is admin
             return admin
         }
         return null;
+    }
+
+    async isAdmin(userId: number): Promise<boolean | null>{
+        const user = await this.userService.getUserById(userId); //Get user by id
+
+        if(user){ //If found
+            if(user.isAdmin) return true; // If user is admin return true
+
+            else return false // If not admin return false
+        }
+
+        return null; //If not found return null
     }
 }

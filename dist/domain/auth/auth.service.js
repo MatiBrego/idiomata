@@ -41,11 +41,23 @@ class AuthService {
     }
     loginAdmin(adminLoginInput) {
         return __awaiter(this, void 0, void 0, function* () {
-            const admin = yield this.userService.getAdminByEmail(adminLoginInput.email);
-            if (admin && adminLoginInput.password == admin.password) {
+            const admin = yield this.userService.getUserByEmail(adminLoginInput.email); //Get user by email
+            if (admin && adminLoginInput.password == admin.password && admin.isAdmin) { //Check if found, id password matches and if user is admin
                 return admin;
             }
             return null;
+        });
+    }
+    isAdmin(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.userService.getUserById(userId); //Get user by id
+            if (user) { //If found
+                if (user.isAdmin)
+                    return true; // If user is admin return true
+                else
+                    return false; // If not admin return false
+            }
+            return null; //If not found return null
         });
     }
 }

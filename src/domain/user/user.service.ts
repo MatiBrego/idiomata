@@ -27,14 +27,4 @@ export class UserService{
     async getUserByEmail(userEmail: string): Promise<UserDto | null>{
         return await this.repository.getUserByEmail(userEmail);
     }
-
-    /**
-     * Returns a user only if they are admin, otherwise it returns null
-     * 
-     * @param userEmail 
-     * @returns {UserDto} UserDto if found, null if not found or not admin
-     */
-    async getAdminByEmail(userEmail: string): Promise<UserDto | null>{
-        return await this.repository.getUserByEmailIfAdmin(userEmail);
-    }
 }

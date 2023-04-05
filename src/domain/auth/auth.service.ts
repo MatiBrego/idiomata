@@ -3,6 +3,7 @@ import moment from "moment";
 import { UserDto } from "../user/user.dto";
 import { UserService } from "../user/user.service";
 import { validTokens } from "../../utils/auth";
+import { AdminLoginInputDto } from "../admin/admin.dto";
 
 export class AuthService{
 
@@ -26,5 +27,15 @@ export class AuthService{
         const token = jwt.encode(payload, "SuperSecretPassword");
         validTokens.add(token) //Add token to token list
         return token;
+    }
+
+    async loginAdmin(adminLoginInput: AdminLoginInputDto): Promise<UserDto | null>{
+        
+        const admin = await this.userService.getAdminByEmail(adminLoginInput.email);
+
+        if (admin && adminLoginInput.password == admin.password)  {
+            return admin
+        }
+        return null;
     }
 }

@@ -44,5 +44,16 @@ class UserService {
             return yield this.repository.getUserByEmail(userEmail);
         });
     }
+    /**
+     * Returns a user only if they are admin, otherwise it returns null
+     *
+     * @param userEmail
+     * @returns {UserDto} UserDto if found, null if not found or not admin
+     */
+    getAdminByEmail(userEmail) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getUserByEmailIfAdmin(userEmail);
+        });
+    }
 }
 exports.UserService = UserService;

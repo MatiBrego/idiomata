@@ -35,3 +35,12 @@ exports.authRouter.get('/', auth_1.withAuth, (req, res) => {
 exports.authRouter.delete('/logout', auth_1.removeAuth, (req, res) => {
     res.status(200).send({ message: "User logged out" });
 });
+//Endpoint to log in as admin
+exports.authRouter.post('/admin/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    const admin = yield authService.loginAdmin(data);
+    if (admin) {
+        res.status(200).send({ token: authService.generateToken(admin) });
+    }
+    res.status(404).send({ message: "Admin with matching email and password not found" });
+}));

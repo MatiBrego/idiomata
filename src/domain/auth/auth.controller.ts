@@ -32,3 +32,16 @@ authRouter.get('/', withAuth, (req, res) => {
 authRouter.delete('/logout', removeAuth, (req, res) => {
     res.status(200).send({message: "User logged out"})
 })
+
+//Endpoint to log in as admin
+authRouter.post('/admin/login', async (req, res) => {
+    const data = req.body
+
+    const admin = await authService.loginAdmin(data);
+
+    if(admin){
+        res.status(200).send({token: authService.generateToken(admin)})
+    }
+
+    res.status(404).send({message: "Admin with matching email and password not found"})
+})

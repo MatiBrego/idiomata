@@ -39,5 +39,14 @@ class AuthService {
         auth_1.validTokens.add(token); //Add token to token list
         return token;
     }
+    loginAdmin(adminLoginInput) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const admin = yield this.userService.getAdminByEmail(adminLoginInput.email);
+            if (admin && adminLoginInput.password == admin.password) {
+                return admin;
+            }
+            return null;
+        });
+    }
 }
 exports.AuthService = AuthService;

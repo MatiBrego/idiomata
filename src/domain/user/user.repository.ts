@@ -8,8 +8,7 @@ export class UserRepository {
     async create(user: UserInputDto): Promise<UserDto>{
         const userResult = await this.db.user.create({
             data: user
-        }
-        )
+        })
         return userResult
     }
 
@@ -61,6 +60,20 @@ export class UserRepository {
         const userResult = await this.db.user.findUnique({
             where:{
                 email: userEmail
+            }
+        })
+        if(userResult){
+            return new UserDto(userResult);
+        }
+        else{
+            return null;
+        }
+    }
+
+    async getUserByEmailIfAdmin(userEmail:string): Promise<UserDto | null> {
+        const userResult = await this.db.user.findFirst({
+            where:{
+                AND: {email: userEmail, isAdmin: true}
             }
         })
         if(userResult){

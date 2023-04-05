@@ -86,5 +86,20 @@ class UserRepository {
             }
         });
     }
+    getUserByEmailIfAdmin(userEmail) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userResult = yield this.db.user.findFirst({
+                where: {
+                    AND: { email: userEmail, isAdmin: true }
+                }
+            });
+            if (userResult) {
+                return new user_dto_1.UserDto(userResult);
+            }
+            else {
+                return null;
+            }
+        });
+    }
 }
 exports.UserRepository = UserRepository;

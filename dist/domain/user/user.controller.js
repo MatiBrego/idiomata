@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userRouter = void 0;
 const express_1 = require("express");
 const db_1 = require("../../utils/db");
+const auth_1 = require("../../utils/auth");
 const user_repository_1 = require("./user.repository");
 const user_service_1 = require("./user.service");
 exports.userRouter = (0, express_1.Router)();
@@ -37,4 +38,9 @@ exports.userRouter.put('/updateEmail/:userId', (req, res) => __awaiter(void 0, v
     const newEmail = req.body.email;
     yield userService.changeUsersEmail(Number(userId), newEmail);
     res.send("Email updated");
+}));
+exports.userRouter.get('/userData', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = res.locals.context;
+    const info = yield userService.getUserById(userId);
+    res.json(info);
 }));

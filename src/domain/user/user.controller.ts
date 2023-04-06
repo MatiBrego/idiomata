@@ -44,3 +44,11 @@ userRouter.put('/updateEmail/:userId', async (req, res) => {
     await userService.changeUsersEmail(Number(userId), newEmail);
     res.send("Email updated")
 })
+
+userRouter.get('/userData', withAuth, async(req, res) => {
+    const userId = res.locals.context;
+
+    const info = await userService.getUserById(userId);
+
+    res.json(info)
+})

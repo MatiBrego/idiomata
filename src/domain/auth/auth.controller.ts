@@ -57,3 +57,8 @@ authRouter.get("/admin", withAuth, async (req, res) => {
 
     res.status(403).send({message: "Only admins can access this info"})
 })
+
+//Endpoint to logout admin
+authRouter.delete("/admin/logout", removeAuth, (req, res) => {
+    res.status(200).send({message: "Admin logged out"})
+})

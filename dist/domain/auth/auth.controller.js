@@ -52,3 +52,7 @@ exports.authRouter.get("/admin", auth_1.withAuth, (req, res) => __awaiter(void 0
         return res.status(200).send({ message: "Token is valid" });
     res.status(403).send({ message: "Only admins can access this info" });
 }));
+//Endpoint to logout admin
+exports.authRouter.delete("/admin/logout", auth_1.removeAuth, (req, res) => {
+    res.status(200).send({ message: "Admin logged out" });
+});

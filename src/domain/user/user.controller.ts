@@ -27,8 +27,8 @@ userRouter.delete('/:userId',async (req, res) => {
     res.send("User " + userId + " was deleted")
 })
 
-userRouter.put('/updatePassword/:userId', async (req, res) => {
-    const userId = req.params.userId;
+userRouter.put('/updatePassword/:userId', withAuth, async (req, res) => {
+    const userId = res.locals.context;
 
     const newPassword = req.body.password;
 
@@ -36,8 +36,8 @@ userRouter.put('/updatePassword/:userId', async (req, res) => {
     res.send("Password updated")
 })
 
-userRouter.put('/updateEmail/:userId', async (req, res) => {
-    const userId = req.params.userId;
+userRouter.put('/updateEmail/:userId', withAuth, async (req, res) => {
+    const userId = res.locals.context;
 
     const newEmail = req.body.email;
 

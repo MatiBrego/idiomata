@@ -32,7 +32,7 @@ export function removeAuth(req: Request, res: Response, next: any) {
     return res
       .status(403)
       .send({ message: "Authorization header missing" });
-}
+  }
 
   var token = req.headers.authorization.split(" ")[1]
   validTokens.delete(token)

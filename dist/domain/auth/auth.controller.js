@@ -27,11 +27,32 @@ exports.authRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0
     }
     res.status(404).send({ message: "User with matching email and password not found" });
 }));
-//This endpoint can be used to check if token is still valid
+//Endpoint to check if token user is still valid
 exports.authRouter.get('/', auth_1.withAuth, (req, res) => {
-    res.status(200).send("Token is valid");
+    res.status(200).send({ message: "Token is valid" });
 });
 //Endpoint to log out
 exports.authRouter.delete('/logout', auth_1.removeAuth, (req, res) => {
     res.status(200).send({ message: "User logged out" });
+});
+//Endpoint to log in as admin
+exports.authRouter.post('/admin/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    const admin = yield authService.loginAdmin(data);
+    if (admin) {
+        return res.status(200).send({ token: authService.generateToken(admin) });
+    }
+    res.status(404).send({ message: "Admin with matching email and password not found" });
+}));
+//Endpoint to check if admin token is still valid
+exports.authRouter.get("/admin", auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = res.locals.context;
+    const isAdmin = yield authService.isAdmin(Number(userId));
+    if (isAdmin)
+        return res.status(200).send({ message: "Token is valid" });
+    res.status(403).send({ message: "Only admins can access this info" });
+}));
+//Endpoint to logout admin
+exports.authRouter.delete("/admin/logout", auth_1.removeAuth, (req, res) => {
+    res.status(200).send({ message: "Admin logged out" });
 });

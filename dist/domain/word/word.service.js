@@ -14,11 +14,6 @@ class WordService {
     constructor(repository) {
         this.repository = repository;
     }
-    getWords(request) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.repository.getWords(request);
-        });
-    }
     createWord(word) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.repository.createWord(word);
@@ -27,6 +22,11 @@ class WordService {
     addTranslation(translation) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.repository.createTranslation(translation);
+        });
+    }
+    getWords(translation) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getWords(translation);
         });
     }
 }

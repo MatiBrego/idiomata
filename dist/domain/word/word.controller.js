@@ -16,19 +16,22 @@ const word_repository_1 = require("./word.repository");
 const db_1 = require("../../utils/db");
 exports.wordRouter = (0, express_1.Router)();
 const wordService = new word_service_1.WordService(new word_repository_1.WordRepository(db_1.db));
-// Endpoint to get words. Body can have categoryId, difficultyId and limit, and must have languagueId
-//TODO
-exports.wordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const requestData = req.body;
-    const words = yield wordService.getWords(requestData);
-}));
+// Endpoint to create a word
 exports.wordRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const wordCreated = yield wordService.createWord(data);
     res.status(200).json(wordCreated);
 }));
+// Endpoint to add a translation
 exports.wordRouter.post("/translation", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const translationCreated = yield wordService.addTranslation(data);
     res.status(200).json(translationCreated);
+}));
+// Endpoint to get a word
+exports.wordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    const words = yield wordService.getWords(data);
+    console.log(words);
+    res.status(200).send(words);
 }));

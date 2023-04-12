@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Difficulty, PrismaClient } from "@prisma/client";
 import { TranslationDto, TranslationInputDto, WordDto, WordInputDto, WordRequestDto, WordWithTranslationsDto } from "./word.dto";
 
 export class WordRepository{
@@ -30,5 +30,28 @@ export class WordRepository{
 
         
         return new TranslationDto(result)
+    }
+
+    async getWords(request: WordRequestDto): Promise<WordWithTranslationsDto[]>{
+        const result = await this.db.word.findMany({
+            where: {
+                category: {is: {name: request.category}}
+            },
+            select: {
+                id: true,
+                inEnglish: true,
+                categoryId: true,
+                translations: {where: {language: {is: {name: request.language}}, difficulty: request.difficulty}}
+            },
+            take: request.limit
+        })
+
+        return result.map((word) => {return new WordWithTranslationsDto({
+            id: word.id, 
+            inEnglish: word.inEnglish, 
+            categoryId: word.categoryId, 
+            language: request.language, 
+            translations: word.translations.map((translation) => {return translation.translated})
+        })})
     }
 }

@@ -15,12 +15,6 @@ class WordRepository {
     constructor(db) {
         this.db = db;
     }
-    // TODO
-    getWords(request) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield [];
-        });
-    }
     createWord(word) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.db.word.create({
@@ -45,6 +39,31 @@ class WordRepository {
                 }
             });
             return new word_dto_1.TranslationDto(result);
+        });
+    }
+    getWords(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.db.word.findMany({
+                where: {
+                    category: { is: { name: request.category } }
+                },
+                select: {
+                    id: true,
+                    inEnglish: true,
+                    categoryId: true,
+                    translations: { where: { language: { is: { name: request.language } }, difficulty: request.difficulty } }
+                },
+                take: request.limit
+            });
+            return result.map((word) => {
+                return new word_dto_1.WordWithTranslationsDto({
+                    id: word.id,
+                    inEnglish: word.inEnglish,
+                    categoryId: word.categoryId,
+                    language: request.language,
+                    translations: word.translations.map((translation) => { return translation.translated; })
+                });
+            });
         });
     }
 }

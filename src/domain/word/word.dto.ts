@@ -2,14 +2,14 @@ import { Difficulty } from "@prisma/client";
 
 // Dto for requesting a word. Can have category, difficulty and a word limit. Must have language
 export class WordRequestDto{
-    languageId: number
-    categoryId?: number
-    difficulty?: string
+    language: string
+    category?: string
+    difficulty?: Difficulty
     limit?: number
 
     constructor(wordRequest: WordRequestDto){
-        this.languageId = wordRequest.languageId;
-        this.categoryId = wordRequest.categoryId
+        this.language = wordRequest.language;
+        this.category = wordRequest.category
         this.difficulty = wordRequest.difficulty
         this.limit = wordRequest.limit
     }

@@ -27,13 +27,13 @@ exports.userRouter.delete('/:userId', (req, res) => __awaiter(void 0, void 0, vo
     yield userService.deleteUser(Number(userId));
     res.send("User " + userId + " was deleted");
 }));
-exports.userRouter.put('/updatePassword/:userId', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userRouter.put('/updatePassword', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = res.locals.context;
     const newPassword = req.body.password;
     yield userService.changeUsersPassword(Number(userId), newPassword);
     res.send("Password updated");
 }));
-exports.userRouter.put('/updateEmail/:userId', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userRouter.put('/updateEmail', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = res.locals.context;
     const newEmail = req.body.email;
     yield userService.changeUsersEmail(Number(userId), newEmail);

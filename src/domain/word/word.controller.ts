@@ -7,9 +7,18 @@ export const wordRouter = Router();
 
 const wordService = new WordService(new WordRepository(db));
 
-//Get words. Query params can be cat(Category), dif(difficulty) and limit
-wordRouter.get("/", async (req, res) => {
-    const requestData = req.body
-    
-    const words = await wordService.getWords(requestData);
+wordRouter.post("/", async (req, res) => {
+    const data = req.body
+
+    const wordCreated = await wordService.createWord(data);
+
+    res.status(200).json(wordCreated)
+})
+
+wordRouter.post("/translation", async (req, res) => {
+    const data = req.body
+
+    const translationCreated = await wordService.addTranslation(data)
+
+    res.status(200).json(translationCreated)
 })

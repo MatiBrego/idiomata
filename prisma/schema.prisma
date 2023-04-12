@@ -22,10 +22,39 @@ model User {
 model Category{
   id Int @id @default(autoincrement())
   name String @unique
+  words Word[] @relation("word") // One to many relationship
 }
 
 model Language{
   id Int @id @default(autoincrement())
   name String @unique
 
+  translations Translation[] @relation("translation") // One to many relationship
+}
+
+model Word{
+  id Int @id @default(autoincrement())
+  inEnglish String @unique
+  categoryId Int
+
+  category Category @relation("word" , fields: [categoryId], references: [id]) 
+
+  translations Translation[] @relation("translation") // One to many relationship
+}
+
+model Translation{
+  id Int @id @default(autoincrement())
+  translated String // Translation of the word
+  wordId Int
+  languageId Int
+  difficulty Difficulty
+
+  word Word @relation("translation", fields: [wordId], references: [id]) 
+  language Language @relation("translation", fields: [languageId], references: [id])
+}
+
+enum Difficulty{
+  HARD
+  MID
+  EASY
 }

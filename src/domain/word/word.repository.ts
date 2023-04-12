@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 export class WordRepository{
     constructor(private readonly db:PrismaClient){}
 
-    getWords(request: WordRequestDto){
+    async getWords(request: WordRequestDto): Promise<WordDto[]>{
+        return await [];
     }
 }

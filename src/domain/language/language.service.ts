@@ -19,6 +19,9 @@ export class LanguageService{
         return await this.repository.modify(language, newLanguageName);
     }
 
+    async getAll():Promise<String[]>{
+        return await this.repository.getAll();
+    }
 
 
 }

@@ -17,7 +17,7 @@ export class LanguageRepository{
     async delete(languageName: string): Promise<void>{
         await this.db.language.delete({
             where:{
-            name:languageName
+                name:languageName
             }
         })
     
@@ -32,7 +32,11 @@ export class LanguageRepository{
                 name:newLanguageName
             }
         })
-    
+    }
+
+    async getAll():Promise<String[]>{
+        const response = await this.db.language.findMany({});
+        return response.map((json)=>{return json.name});
     }
 
 

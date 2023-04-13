@@ -29,5 +29,10 @@ class LanguageService {
             return yield this.repository.modify(language, newLanguageName);
         });
     }
+    getAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getAll();
+        });
+    }
 }
 exports.LanguageService = LanguageService;

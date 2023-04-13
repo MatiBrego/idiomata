@@ -43,5 +43,11 @@ class LanguageRepository {
             });
         });
     }
+    getAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield this.db.language.findMany({});
+            return response.map((json) => { return json.name; });
+        });
+    }
 }
 exports.LanguageRepository = LanguageRepository;

@@ -4,6 +4,7 @@ import { LanguageRepository } from "./language.repository";
 import { LanguageService } from "./language.service";
 
 
+
 export const languageRouter = Router();
 
 const languageService = new LanguageService(new LanguageRepository(db));
@@ -26,6 +27,14 @@ languageRouter.put('/', async(req,res)=>{
     await languageService.modifyLanguage(language, newLanguageName);
     res.json(language + " has changed name to " + newLanguageName);
 })
+
+languageRouter.get('/', async(req,res) =>{
+    const response = await languageService.getAll();
+    res.status(200).send(response);
+    
+
+}
+)
 
 
 

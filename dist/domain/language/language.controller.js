@@ -32,3 +32,7 @@ exports.languageRouter.put('/', (req, res) => __awaiter(void 0, void 0, void 0, 
     yield languageService.modifyLanguage(language, newLanguageName);
     res.json(language + " has changed name to " + newLanguageName);
 }));
+exports.languageRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield languageService.getAll();
+    res.status(200).send(response);
+}));

@@ -15,4 +15,8 @@ export class WordService{
     async getWords(translation: WordRequestDto): Promise<WordWithTranslationsDto[]>{
         return await this.repository.getWords(translation);
     }
+
+    async getWordByName(wordInEnglish: string){
+        return await this.repository.getWordByName(wordInEnglish);
+    }
 }

@@ -32,7 +32,14 @@ wordRouter.get("/", async (req, res) => {
 
     const words = await wordService.getWords(data);
 
-    console.log(words)
-
     res.status(200).send(words)
+})
+
+wordRouter.get("/translation/:word", async (req, res) => {
+    
+    const wordInEnglish = req.params.word
+
+    const translations = await wordService.getWordByName(wordInEnglish);
+
+    res.status(200).send(translations)
 })

@@ -29,5 +29,10 @@ class WordService {
             return yield this.repository.getWords(translation);
         });
     }
+    getWordByName(wordInEnglish) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getWordByName(wordInEnglish);
+        });
+    }
 }
 exports.WordService = WordService;

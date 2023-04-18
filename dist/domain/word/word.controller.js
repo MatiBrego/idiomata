@@ -29,7 +29,7 @@ exports.wordRouter.post("/translation", (req, res) => __awaiter(void 0, void 0, 
     res.status(200).json(translationCreated);
 }));
 // Endpoint to get a word
-exports.wordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.wordRouter.post("/wordlist", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const words = yield wordService.getWords(data);
     res.status(200).send(words);

@@ -9,30 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WordService = void 0;
-class WordService {
+exports.StatsService = void 0;
+class StatsService {
     constructor(repository) {
         this.repository = repository;
     }
-    createWord(word) {
+    createWordAttempt(wordAttempt) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.repository.createWord(word);
+            return yield this.repository.createWordAttempt(wordAttempt);
         });
     }
-    addTranslation(translation) {
+    getWordAttemptsByUserId(userId, searchInput) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.repository.createTranslation(translation);
-        });
-    }
-    getWords(translation) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.repository.getWords(translation);
-        });
-    }
-    getWordByName(wordInEnglish) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.repository.getWordByName(wordInEnglish);
+            return yield this.repository.getAllAttemptsByUser(userId, searchInput);
         });
     }
 }
-exports.WordService = WordService;
+exports.StatsService = StatsService;

@@ -66,5 +66,19 @@ class WordRepository {
             });
         });
     }
+    getWordByName(wordInEnglish) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const results = yield this.db.language.findMany({
+                select: {
+                    name: true,
+                    translations: {
+                        where: { word: { is: { inEnglish: wordInEnglish } } },
+                        select: { translated: true }
+                    }
+                }
+            });
+            return results;
+        });
+    }
 }
 exports.WordRepository = WordRepository;

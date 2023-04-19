@@ -17,6 +17,8 @@ model User {
   password String
   language String
   isAdmin Boolean @default(false)
+
+  wordAttempts WordAttempt[] @relation("wordAttempt")
 }
 
 model Category{
@@ -51,10 +53,22 @@ model Translation{
 
   word Word @relation("translation", fields: [wordId], references: [id]) 
   language Language @relation("translation", fields: [languageId], references: [id])
+
+  wordAttempts WordAttempt[] @relation("wordAttempt")
 }
 
 enum Difficulty{
   HARD
   MID
   EASY
+}
+
+model WordAttempt{
+  id Int @id @default(autoincrement())
+  correct Boolean
+  translationId Int
+  userId Int
+
+  translation Translation @relation("wordAttempt", fields: [translationId], references: [id])
+  user User @relation("wordAttempt", fields: [userId], references: [id])
 }

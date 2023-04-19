@@ -17,13 +17,26 @@ class StatsRepository {
     }
     createWordAttempt(wordAttempt) {
         return __awaiter(this, void 0, void 0, function* () {
-            const attempt = yield this.db.wordAttempt.create({
-                data: {
-                    translation: { connect: { id: wordAttempt.translationId } },
-                    user: { connect: { id: wordAttempt.userId } },
-                    correct: wordAttempt.correct
-                }
-            });
+            let attempt;
+            if (wordAttempt.translationId) {
+                attempt = yield this.db.wordAttempt.create({
+                    data: {
+                        translation: { connect: { id: wordAttempt.translationId } },
+                        user: { connect: { id: wordAttempt.userId } },
+                        correct: wordAttempt.correct,
+                        word: { connect: { inEnglish: wordAttempt.word } }
+                    }
+                });
+            }
+            else {
+                attempt = yield this.db.wordAttempt.create({
+                    data: {
+                        user: { connect: { id: wordAttempt.userId } },
+                        correct: wordAttempt.correct,
+                        word: { connect: { inEnglish: wordAttempt.word } }
+                    }
+                });
+            }
             return new stats_dto_1.WordAttemptDto(attempt);
         });
     }

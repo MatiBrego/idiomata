@@ -16,7 +16,7 @@ export class WordAttemptInputDto{
 
 export class WordAttemptDto{
     userId: number
-    translationId: number
+    translationId: number|null
     correct: boolean
 
     constructor(attempt: WordAttemptDto){

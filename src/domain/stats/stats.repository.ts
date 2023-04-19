@@ -5,13 +5,25 @@ export class StatsRepository{
     constructor(private readonly db: PrismaClient){}
 
     async createWordAttempt(wordAttempt: WordAttemptInputDto): Promise<WordAttemptDto>{
-        const attempt = await this.db.wordAttempt.create({
-            data: {
-                translation: {connect: {id: wordAttempt.translationId}},
-                user: {connect: {id: wordAttempt.userId}},
-                correct: wordAttempt.correct
-            }
-        })
+        let attempt;
+        if(wordAttempt.translationId){
+            attempt = await this.db.wordAttempt.create({
+                data: {
+                    translation: {connect: {id: wordAttempt.translationId}},
+                    user: {connect: {id: wordAttempt.userId}},
+                    correct: wordAttempt.correct,
+                    word: {connect: {inEnglish: wordAttempt.word}}
+                }
+            })
+        }else{
+            attempt = await this.db.wordAttempt.create({
+                data: {
+                    user: {connect: {id: wordAttempt.userId}},
+                    correct: wordAttempt.correct,
+                    word: {connect: {inEnglish: wordAttempt.word}}
+                }
+            })
+        }
 
         return new WordAttemptDto(attempt)
     }

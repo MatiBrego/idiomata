@@ -6,6 +6,7 @@ class WordAttemptInputDto {
         this.userId = attempt.userId;
         this.translationId = attempt.translationId;
         this.correct = attempt.correct;
+        this.word = attempt.word;
     }
 }
 exports.WordAttemptInputDto = WordAttemptInputDto;

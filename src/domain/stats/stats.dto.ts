@@ -4,11 +4,13 @@ export class WordAttemptInputDto{
     userId: number
     translationId: number
     correct: boolean
+    word: string
 
     constructor(attempt: WordAttemptInputDto){
         this.userId = attempt.userId
         this.translationId = attempt.translationId
         this.correct = attempt.correct
+        this.word = attempt.word
     }
 }
 
@@ -17,7 +19,7 @@ export class WordAttemptDto{
     translationId: number
     correct: boolean
 
-    constructor(attempt: WordAttemptInputDto){
+    constructor(attempt: WordAttemptDto){
         this.userId = attempt.userId
         this.translationId = attempt.translationId
         this.correct = attempt.correct

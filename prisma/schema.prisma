@@ -39,9 +39,10 @@ model Word{
   inEnglish String @unique
   categoryId Int
 
-  category Category @relation("word" , fields: [categoryId], references: [id]) 
+  category Category @relation("word" , fields: [categoryId], references: [id])
 
   translations Translation[] @relation("translation") // One to many relationship
+  wordAttempts WordAttempt[] @relation("wordAttempt")
 }
 
 model Translation{
@@ -66,9 +67,11 @@ enum Difficulty{
 model WordAttempt{
   id Int @id @default(autoincrement())
   correct Boolean
-  translationId Int
+  translationId Int?  
   userId Int
+  wordId Int
 
-  translation Translation @relation("wordAttempt", fields: [translationId], references: [id])
+  translation Translation? @relation("wordAttempt", fields: [translationId], references: [id])
   user User @relation("wordAttempt", fields: [userId], references: [id])
+  word Word @relation("wordAttempt", fields: [wordId], references: [id])
 }

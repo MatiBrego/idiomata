@@ -11,4 +11,6 @@ export class StatsService{
     async getWordAttemptsByUserId(userId:number, searchInput: WordAttemptSearchInputDto){
         return await this.repository.getAllAttemptsByUser(userId, searchInput);
     }
+
+    
 }

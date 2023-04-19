@@ -1,6 +1,7 @@
 import { Difficulty, PrismaClient } from "@prisma/client";
 import { TranslationDto, TranslationInputDto, WordDto, WordInputDto, WordRequestDto, WordWithTranslationsDto } from "./word.dto";
 import { readSync } from "fs";
+import { wordRouter } from "./word.controller";
 
 export class WordRepository{
     constructor(private readonly db:PrismaClient){}
@@ -52,7 +53,7 @@ export class WordRepository{
             inEnglish: word.inEnglish, 
             categoryId: word.categoryId, 
             language: request.language, 
-            translations: word.translations.map((translation) => {return translation.translated})
+            translations: word.translations.map((translation) => {return {translated: translation.translated, id: translation.id}})
         })})
     }
 

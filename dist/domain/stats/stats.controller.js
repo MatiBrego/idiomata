@@ -20,6 +20,7 @@ exports.statsRouter = (0, express_1.Router)();
 // Endpoint to save a word attempt by a user.
 exports.statsRouter.post('/wordAttempt', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
+    data.userId = res.locals.context;
     const attempt = yield statsService.createWordAttempt(data);
     res.status(200).json(attempt);
 }));

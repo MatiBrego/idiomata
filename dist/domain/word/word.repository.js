@@ -61,7 +61,7 @@ class WordRepository {
                     inEnglish: word.inEnglish,
                     categoryId: word.categoryId,
                     language: request.language,
-                    translations: word.translations.map((translation) => { return translation.translated; })
+                    translations: word.translations.map((translation) => { return { translated: translation.translated, id: translation.id }; })
                 });
             });
         });

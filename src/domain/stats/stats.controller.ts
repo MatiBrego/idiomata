@@ -12,6 +12,8 @@ export const statsRouter = Router()
 statsRouter.post('/wordAttempt', withAuth, async (req, res) => {
     const data = req.body
 
+    data.userId = res.locals.context
+
     const attempt = await statsService.createWordAttempt(data)
 
     res.status(200).json(attempt)

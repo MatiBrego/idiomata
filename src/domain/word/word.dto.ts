@@ -41,7 +41,7 @@ export class WordDto{
 // Dto for a word with its translations in a certain language
 export class WordWithTranslationsDto extends WordDto{
     language: string
-    translations: string[]
+    translations: {id: number, translated: string}[]
 
     constructor(word: WordWithTranslationsDto){
         super({id: word.id, inEnglish: word.inEnglish, categoryId: word.categoryId})

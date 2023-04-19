@@ -43,5 +43,11 @@ class CategoryRepository {
             });
         });
     }
+    getAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const categories = yield this.db.category.findMany({});
+            return categories.map((json) => { return json.name; });
+        });
+    }
 }
 exports.CategoryRepository = CategoryRepository;

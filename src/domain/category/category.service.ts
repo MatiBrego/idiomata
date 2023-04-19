@@ -16,6 +16,9 @@ export class CategoryService{
     async modifyCategory(categoryName: string, newCategoryName:string): Promise<void>{
         return await this.repository.modify(categoryName,newCategoryName);
     }
+    async getAll(): Promise<String[]>{ 
+        return await this.repository.getAll();
+    }
 
 
 

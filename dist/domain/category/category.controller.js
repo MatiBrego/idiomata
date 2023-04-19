@@ -32,3 +32,7 @@ exports.categoryRouter.put('/', (req, res) => __awaiter(void 0, void 0, void 0, 
     yield categoryService.modifyCategory(category, modcategory);
     res.send(category + ' has changed name to ' + modcategory);
 }));
+exports.categoryRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield categoryService.getAll();
+    res.status(200).send(response);
+}));

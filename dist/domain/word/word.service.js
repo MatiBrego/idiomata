@@ -34,5 +34,15 @@ class WordService {
             return yield this.repository.getWordByName(wordInEnglish);
         });
     }
+    deleteWord(wordInEnglish) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.repository.deleteWord(wordInEnglish);
+        });
+    }
+    deleteTranslation(translationId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.repository.deleteTranslation(translationId);
+        });
+    }
 }
 exports.WordService = WordService;

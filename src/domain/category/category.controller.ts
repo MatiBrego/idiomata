@@ -26,3 +26,9 @@ categoryRouter.put('/', async(req, res) =>{
     await categoryService.modifyCategory(category, modcategory);
     res.send(category + ' has changed name to ' + modcategory )
 })
+
+categoryRouter.get('/', async(req, res) =>{
+    const response = await categoryService.getAll();
+    res.status(200).send(response);
+    })
+    

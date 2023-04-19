@@ -29,5 +29,10 @@ class CategoryService {
             return yield this.repository.modify(categoryName, newCategoryName);
         });
     }
+    getAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getAll();
+        });
+    }
 }
 exports.CategoryService = CategoryService;

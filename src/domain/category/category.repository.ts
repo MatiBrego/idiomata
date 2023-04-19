@@ -31,6 +31,11 @@ export class CategoryRepository{
         })
     }
 
+    async getAll():Promise<String[]>{
+        const categories = await this.db.category.findMany({});
+        return categories.map((json)=>{return json.name});
+    }
+
 
 
 

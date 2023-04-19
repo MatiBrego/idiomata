@@ -51,7 +51,7 @@ model Translation{
   languageId Int
   difficulty Difficulty
 
-  word Word @relation("translation", fields: [wordId], references: [id]) 
+  word Word @relation("translation", fields: [wordId], references: [id], onDelete: Cascade) 
   language Language @relation("translation", fields: [languageId], references: [id])
 
   wordAttempts WordAttempt[] @relation("wordAttempt")

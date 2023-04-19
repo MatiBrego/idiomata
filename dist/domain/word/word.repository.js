@@ -73,11 +73,29 @@ class WordRepository {
                     name: true,
                     translations: {
                         where: { word: { is: { inEnglish: wordInEnglish } } },
-                        select: { translated: true }
+                        select: { translated: true, id: true }
                     }
                 }
             });
             return results;
+        });
+    }
+    deleteWord(wordInEnglish) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.db.word.delete({
+                where: {
+                    inEnglish: wordInEnglish,
+                }
+            });
+        });
+    }
+    deleteTranslation(translationId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.db.translation.delete({
+                where: {
+                    id: translationId,
+                }
+            });
         });
     }
 }

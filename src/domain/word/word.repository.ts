@@ -57,17 +57,33 @@ export class WordRepository{
         })})
     }
 
-    async getWordByName(wordInEnglish: string): Promise<{name: string, translations: {translated: string}[]}[]>{
+    async getWordByName(wordInEnglish: string): Promise<{name: string, translations: {translated: string, id: number}[]}[]>{
         const results = await this.db.language.findMany({
             select:{
                 name: true,
                 translations: {
                     where: {word: {is: {inEnglish: wordInEnglish}}},
-                    select: {translated: true}
+                    select: {translated: true, id: true}
                 }
             }
         })
 
         return results
+    }
+
+    async deleteWord(wordInEnglish: string): Promise<void>{
+        await this.db.word.delete({
+            where: {
+                inEnglish: wordInEnglish,
+            }
+        })
+    }
+
+    async deleteTranslation(translationId: number): Promise<void>{
+        await this.db.translation.delete({
+            where:{
+                id: translationId,
+            }
+        })
     }
 }

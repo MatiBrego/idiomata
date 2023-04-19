@@ -19,4 +19,12 @@ export class WordService{
     async getWordByName(wordInEnglish: string){
         return await this.repository.getWordByName(wordInEnglish);
     }
+
+    async deleteWord(wordInEnglish: string){
+        await this.repository.deleteWord(wordInEnglish);
+    }
+
+    async deleteTranslation(translationId: number){
+        await this.repository.deleteTranslation(translationId);
+    }
 }

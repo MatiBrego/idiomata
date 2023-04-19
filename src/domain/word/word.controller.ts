@@ -43,3 +43,15 @@ wordRouter.get("/translation/:word", async (req, res) => {
 
     res.status(200).send(translations)
 })
+
+wordRouter.delete("/", async (req, res) => {
+    const wordInEnglish = req.body.inEnglish
+    await wordService.deleteWord(wordInEnglish)
+    res.status(200).json(wordInEnglish + " was deleted")
+})
+
+wordRouter.delete("/translation", async (req, res) => {
+    const translationId = req.body.id
+    await wordService.deleteTranslation(translationId)
+    res.status(200).json("Translation with id " + translationId + " was deleted")
+})

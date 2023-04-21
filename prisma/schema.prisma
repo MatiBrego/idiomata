@@ -39,7 +39,7 @@ model Word{
   inEnglish String @unique
   categoryId Int
 
-  category Category @relation("word" , fields: [categoryId], references: [id])
+  category Category @relation("word" , fields: [categoryId], references: [id], onDelete: Cascade)
 
   translations Translation[] @relation("translation") // One to many relationship
   wordAttempts WordAttempt[] @relation("wordAttempt")
@@ -53,7 +53,7 @@ model Translation{
   difficulty Difficulty
 
   word Word @relation("translation", fields: [wordId], references: [id], onDelete: Cascade) 
-  language Language @relation("translation", fields: [languageId], references: [id])
+  language Language @relation("translation", fields: [languageId], references: [id], onDelete: Cascade)
 
   wordAttempts WordAttempt[] @relation("wordAttempt")
 }
@@ -71,7 +71,7 @@ model WordAttempt{
   userId Int
   wordId Int
 
-  translation Translation? @relation("wordAttempt", fields: [translationId], references: [id])
-  user User @relation("wordAttempt", fields: [userId], references: [id])
-  word Word @relation("wordAttempt", fields: [wordId], references: [id])
+  translation Translation? @relation("wordAttempt", fields: [translationId], references: [id], onDelete: Cascade)
+  user User @relation("wordAttempt", fields: [userId], references: [id], onDelete: Cascade)
+  word Word @relation("wordAttempt", fields: [wordId], references: [id], onDelete: Cascade)
 }

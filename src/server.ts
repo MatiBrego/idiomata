@@ -2,6 +2,9 @@ import bodyParser from "body-parser";
 import express from "express";
 import { router } from "./router/router";
 import cors from "cors";
+import { resetDb } from "./utils/seed";
+
+resetDb()
 
 const app = express();
 

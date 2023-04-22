@@ -9,10 +9,10 @@ export async function resetDb(){
     await db.wordAttempt.deleteMany()
 
     createUsers()
-    createLanguages()
+    const languagesId = await createLanguages()
     const categoryIds = await createCategories()
     const wordsId = await createWords(categoryIds)
-    // createTranslations(wordsId)  
+    createTranslations(wordsId, languagesId)  
 }
 
 //Creates 5 users who have:
@@ -38,11 +38,12 @@ async function createUsers(){
 }
 
 async function createLanguages(){
-    await db.language.createMany(
-        {
-            data: [{name: 'spanish'}, {name: "italian"}]
-        }
-    )
+    const languagesId = [] 
+
+    languagesId.push((await db.language.create({data: {name: 'spanish'}})).id)
+    languagesId.push((await db.language.create({data: {name: 'italian'}})).id)
+
+    return languagesId
 }
 
 async function createCategories() {
@@ -73,5 +74,28 @@ async function createWords(categoryIds: number[]){
     wordsId.push(await db.word.create({data: {inEnglish: "schoolbag", categoryId: categoryIds[1]}}))
 
     return wordsId.map((word) => word.id)
+}
+
+async function createTranslations(wordsId: number[], languagesId: number[]) {
+    await db.translation.create({data: {wordId: wordsId[0], translated: "silla", languageId: languagesId[0], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[0], translated: "sedia", languageId: languagesId[1], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[1], translated: "baño", languageId: languagesId[0], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[1], translated: "bagno", languageId: languagesId[1], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[2], translated: "escritorio", languageId: languagesId[0], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[2], translated: "scrivania", languageId: languagesId[1], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[3], translated: "ventana", languageId: languagesId[0], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[3], translated: "finestra", languageId: languagesId[1], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[4], translated: "puerta", languageId: languagesId[0], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[4], translated: "porta", languageId: languagesId[1], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[5], translated: "lápiz", languageId: languagesId[0], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[5], translated: "matita", languageId: languagesId[1], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[6], translated: "pizarra", languageId: languagesId[0], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[6], translated: "lavagna", languageId: languagesId[1], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[7], translated: "profesor", languageId: languagesId[0], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[7], translated: "insegnante", languageId: languagesId[1], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[8], translated: "estudiante", languageId: languagesId[0], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[8], translated: "studente", languageId: languagesId[1], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[9], translated: "mochila", languageId: languagesId[0], difficulty: "EASY"}})
+    await db.translation.create({data: {wordId: wordsId[9], translated: "zaino", languageId: languagesId[1], difficulty: "EASY"}})
 }
 

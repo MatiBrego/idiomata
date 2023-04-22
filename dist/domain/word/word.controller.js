@@ -14,6 +14,7 @@ const express_1 = require("express");
 const word_service_1 = require("./word.service");
 const word_repository_1 = require("./word.repository");
 const db_1 = require("../../utils/db");
+const validation_1 = require("../../utils/validation");
 exports.wordRouter = (0, express_1.Router)();
 const wordService = new word_service_1.WordService(new word_repository_1.WordRepository(db_1.db));
 // Endpoint to create a word
@@ -34,7 +35,7 @@ exports.wordRouter.post("/wordlist", (req, res) => __awaiter(void 0, void 0, voi
     const words = yield wordService.getWords(data);
     res.status(200).send(words);
 }));
-exports.wordRouter.get("/translation/:word", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.wordRouter.get("/translation/:word", validation_1.validateTranslationBody, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const wordInEnglish = req.params.word;
     const translations = yield wordService.getWordByName(wordInEnglish);
     res.status(200).send(translations);

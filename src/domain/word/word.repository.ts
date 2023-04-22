@@ -89,4 +89,13 @@ export class WordRepository{
             }
         })
     }
+
+    async getUniqueWord(inEnglish: string): Promise<WordDto | null>{
+        const word = await this.db.word.findUnique({
+            where: {
+                inEnglish: inEnglish
+            }
+        })
+        return word? new WordDto(word) : null
+    }
 }

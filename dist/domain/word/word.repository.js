@@ -101,5 +101,15 @@ class WordRepository {
             });
         });
     }
+    getUniqueWord(inEnglish) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const word = yield this.db.word.findUnique({
+                where: {
+                    inEnglish: inEnglish
+                }
+            });
+            return word ? new word_dto_1.WordDto(word) : null;
+        });
+    }
 }
 exports.WordRepository = WordRepository;

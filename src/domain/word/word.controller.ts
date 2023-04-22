@@ -2,6 +2,7 @@ import { Router } from "express";
 import { WordService } from "./word.service";
 import { WordRepository } from "./word.repository";
 import { db } from "../../utils/db";
+import { validateTranslationBody } from "../../utils/validation";
 
 export const wordRouter = Router();
 
@@ -35,7 +36,7 @@ wordRouter.post("/wordlist", async (req, res) => {
     res.status(200).send(words)
 })
 
-wordRouter.get("/translation/:word", async (req, res) => {
+wordRouter.get("/translation/:word", validateTranslationBody, async (req, res) => {
     
     const wordInEnglish = req.params.word
 

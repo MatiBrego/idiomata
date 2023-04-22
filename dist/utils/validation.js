@@ -13,11 +13,24 @@ exports.validateTranslationBody = void 0;
 const word_repository_1 = require("../domain/word/word.repository");
 const db_1 = require("./db");
 const validateTranslationBody = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const word = req.params.word;
-    const wordRepository = new word_repository_1.WordRepository(db_1.db);
-    const result = yield wordRepository.getUniqueWord(word);
-    if (!result)
-        return res.status(404).send("Word not found");
-    next();
+    let word = req.params.word;
+    if (word) {
+        if (!(yield existsWordInEnglish(word)))
+            return res.status(404).send("Word not found");
+        next();
+    }
+    word = req.body.word;
+    if (word) {
+        if ((!(yield existsWordInEnglish(word))))
+            return res.status(404).send("Word not found");
+        next();
+    }
+    return res.status(400).send("Word in english missing");
 });
 exports.validateTranslationBody = validateTranslationBody;
+function existsWordInEnglish(inEnglish) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const wordRepository = new word_repository_1.WordRepository(db_1.db);
+        return yield wordRepository.getUniqueWord(inEnglish);
+    });
+}

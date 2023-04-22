@@ -19,7 +19,7 @@ wordRouter.post("/", async (req, res) => {
 })
 
 // Endpoint to add a translation
-wordRouter.post("/translation", async (req, res) => {
+wordRouter.post("/translation", validateTranslationBody, async (req, res) => {
     const data = req.body
 
     const translationCreated = await wordService.addTranslation(data)

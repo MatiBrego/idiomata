@@ -24,7 +24,7 @@ exports.wordRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, fun
     res.status(200).json(wordCreated);
 }));
 // Endpoint to add a translation
-exports.wordRouter.post("/translation", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.wordRouter.post("/translation", validation_1.validateTranslationBody, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const translationCreated = yield wordService.addTranslation(data);
     res.status(200).json(translationCreated);

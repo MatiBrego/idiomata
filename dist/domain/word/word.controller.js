@@ -28,7 +28,7 @@ exports.wordRouter.post("/translation", (req, res) => __awaiter(void 0, void 0, 
     const translationCreated = yield wordService.addTranslation(data);
     res.status(200).json(translationCreated);
 }));
-// Endpoint to get a word
+// Endpoint to get many words. Body must have language; can have category and difficulty
 exports.wordRouter.post("/wordlist", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const words = yield wordService.getWords(data);

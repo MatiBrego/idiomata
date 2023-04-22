@@ -37,7 +37,10 @@ export class WordRepository{
     async getWords(request: WordRequestDto): Promise<WordWithTranslationsDto[]>{
         const result = await this.db.word.findMany({
             where: {
-                category: {is: {name: request.category}}
+                AND:[
+                    {category: {is: {name: request.category}}},
+                    {translations: {some: {language: {name: request.language}}}}
+                ]
             },
             select: {
                 id: true,

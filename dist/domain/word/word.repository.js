@@ -45,7 +45,10 @@ class WordRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.db.word.findMany({
                 where: {
-                    category: { is: { name: request.category } }
+                    AND: [
+                        { category: { is: { name: request.category } } },
+                        { translations: { some: { language: { name: request.language } } } }
+                    ]
                 },
                 select: {
                     id: true,

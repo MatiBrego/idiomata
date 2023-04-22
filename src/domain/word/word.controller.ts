@@ -26,7 +26,7 @@ wordRouter.post("/translation", async (req, res) => {
     res.status(200).json(translationCreated)
 })
 
-// Endpoint to get a word
+// Endpoint to get many words. Body must have language; can have category and difficulty
 wordRouter.post("/wordlist", async (req, res) => {
     const data = req.body
     

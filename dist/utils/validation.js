@@ -18,12 +18,14 @@ const validateTranslationBody = (req, res, next) => __awaiter(void 0, void 0, vo
         if (!(yield existsWordInEnglish(word)))
             return res.status(404).send("Word not found");
         next();
+        return;
     }
     word = req.body.word;
     if (word) {
         if ((!(yield existsWordInEnglish(word))))
             return res.status(404).send("Word not found");
         next();
+        return;
     }
     return res.status(400).send("Word in english missing");
 });

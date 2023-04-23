@@ -4,11 +4,12 @@ import { db } from "./db";
 
 export const validateTranslationBody = async (req: Request, res: Response, next: any) => {
     let word = req.params.word;
-
+    
     if(word){
         if(!(await existsWordInEnglish(word))) return res.status(404).send("Word not found")
     
         next();
+        return
     }
     word = req.body.word
 
@@ -16,6 +17,7 @@ export const validateTranslationBody = async (req: Request, res: Response, next:
         if((!await existsWordInEnglish(word))) return res.status(404).send("Word not found")
     
         next();
+        return
     }
     
     return res.status(400).send("Word in english missing")

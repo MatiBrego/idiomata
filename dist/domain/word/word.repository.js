@@ -111,5 +111,15 @@ class WordRepository {
             return word ? new word_dto_1.WordDto(word) : null;
         });
     }
+    getTranslationById(translationId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const translation = yield this.db.translation.findUnique({
+                where: {
+                    id: translationId
+                }
+            });
+            return translation ? new word_dto_1.TranslationDto(translation) : null;
+        });
+    }
 }
 exports.WordRepository = WordRepository;

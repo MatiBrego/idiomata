@@ -98,4 +98,13 @@ export class WordRepository{
         })
         return word? new WordDto(word) : null
     }
+
+    async getTranslationById(translationId: number): Promise<TranslationDto | null>{
+        const translation = await this.db.translation.findUnique({
+            where:{
+                id: translationId
+            }
+        })
+        return translation? new TranslationDto(translation) : null
+    }
 }

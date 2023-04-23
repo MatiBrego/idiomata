@@ -40,12 +40,12 @@ exports.wordRouter.get("/translation/:word", validation_1.validateTranslationBod
     const translations = yield wordService.getWordByName(wordInEnglish);
     res.status(200).send(translations);
 }));
-exports.wordRouter.delete("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.wordRouter.delete("/", validation_1.validateTranslationBody, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const wordInEnglish = req.body.inEnglish;
     yield wordService.deleteWord(wordInEnglish);
     res.status(200).json(wordInEnglish + " was deleted");
 }));
-exports.wordRouter.delete("/translation", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.wordRouter.delete("/translation", validation_1.validateTranslationBody, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const translationId = req.body.id;
     yield wordService.deleteTranslation(translationId);
     res.status(200).json("Translation with id " + translationId + " was deleted");

@@ -27,6 +27,20 @@ const validateTranslationBody = (req, res, next) => __awaiter(void 0, void 0, vo
         next();
         return;
     }
+    word = req.body.inEnglish;
+    if (word) {
+        if ((!(yield existsWordInEnglish(word))))
+            return res.status(404).send("Word not found");
+        next();
+        return;
+    }
+    word = req.body.id;
+    if (word) {
+        if ((!(yield existsTranslationById(Number(word)))))
+            return res.status(404).send("Translation not found");
+        next();
+        return;
+    }
     return res.status(400).send("Word in english missing");
 });
 exports.validateTranslationBody = validateTranslationBody;
@@ -34,5 +48,11 @@ function existsWordInEnglish(inEnglish) {
     return __awaiter(this, void 0, void 0, function* () {
         const wordRepository = new word_repository_1.WordRepository(db_1.db);
         return yield wordRepository.getUniqueWord(inEnglish);
+    });
+}
+function existsTranslationById(translationId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const wordRepository = new word_repository_1.WordRepository(db_1.db);
+        return yield wordRepository.getTranslationById(translationId);
     });
 }

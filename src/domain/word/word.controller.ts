@@ -2,8 +2,8 @@ import { Router } from "express";
 import { WordService } from "./word.service";
 import { WordRepository } from "./word.repository";
 import { db } from "../../utils/db";
-import { validateTranslationBody } from "../../utils/validation";
-
+import { validateTranslationBody } from "../../utils/validation/translation";
+validateTranslationBody
 export const wordRouter = Router();
 
 const wordService = new WordService(new WordRepository(db));

@@ -2,6 +2,7 @@ import { Router } from "express";
 import { db } from "../../utils/db";
 import { LanguageRepository } from "./language.repository";
 import { LanguageService } from "./language.service";
+import { validateLanguageBody } from "../../utils/validation/language";
 
 
 
@@ -9,7 +10,7 @@ export const languageRouter = Router();
 
 const languageService = new LanguageService(new LanguageRepository(db));
 
-languageRouter.post('/', async(req,res)=>{
+languageRouter.post('/', validateLanguageBody, async(req,res)=>{
     const language = req.body;
     const result = await languageService.createLanguage(language);
     res.json(result);

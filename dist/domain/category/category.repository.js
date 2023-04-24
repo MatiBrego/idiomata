@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryRepository = void 0;
+const category_dto_1 = require("./category.dto");
 class CategoryRepository {
     constructor(db) {
         this.db = db;
@@ -47,6 +48,14 @@ class CategoryRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const categories = yield this.db.category.findMany({});
             return categories.map((json) => { return json.name; });
+        });
+    }
+    getByName(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const category = yield this.db.category.findUnique({
+                where: { name: name }
+            });
+            return category ? new category_dto_1.CategoryDto(category) : null;
         });
     }
 }

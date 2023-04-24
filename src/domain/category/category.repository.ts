@@ -36,7 +36,11 @@ export class CategoryRepository{
         return categories.map((json)=>{return json.name});
     }
 
+    async getByName(name: string): Promise<CategoryDto | null>{
+        const category = await this.db.category.findUnique({
+            where: {name: name}
+        })
 
-
-
+        return category? new CategoryDto(category): null
+    }
 }

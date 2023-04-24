@@ -14,9 +14,10 @@ const express_1 = require("express");
 const db_1 = require("../../utils/db");
 const language_repository_1 = require("./language.repository");
 const language_service_1 = require("./language.service");
+const language_1 = require("../../utils/validation/language");
 exports.languageRouter = (0, express_1.Router)();
 const languageService = new language_service_1.LanguageService(new language_repository_1.LanguageRepository(db_1.db));
-exports.languageRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.languageRouter.post('/', language_1.validateLanguageBody, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const language = req.body;
     const result = yield languageService.createLanguage(language);
     res.json(result);

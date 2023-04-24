@@ -14,9 +14,10 @@ const express_1 = require("express");
 const db_1 = require("../../utils/db");
 const category_repository_1 = require("./category.repository");
 const category_service_1 = require("./category.service");
+const category_1 = require("../../utils/validation/category");
 exports.categoryRouter = (0, express_1.Router)();
 const categoryService = new category_service_1.CategoryService(new category_repository_1.CategoryRepository(db_1.db));
-exports.categoryRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.categoryRouter.post('/', category_1.validateCategoryBody, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const category = req.body;
     const result = yield categoryService.createCategory(category);
     res.json(result);

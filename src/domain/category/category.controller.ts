@@ -2,12 +2,12 @@ import { Router } from "express";
 import { db } from "../../utils/db";
 import { CategoryRepository } from "./category.repository";
 import { CategoryService } from "./category.service";
-
+import { validateCategoryBody } from "../../utils/validation/category";
 export const categoryRouter = Router();
 
 const categoryService = new CategoryService(new CategoryRepository(db))
 
-categoryRouter.post('/', async(req,res) =>{
+categoryRouter.post('/', validateCategoryBody, async(req,res) =>{
     const category = req.body;
     const result = await categoryService.createCategory(category)
     res.json(result);

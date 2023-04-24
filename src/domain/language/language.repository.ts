@@ -40,5 +40,11 @@ export class LanguageRepository{
     }
 
 
+    async getByName(name: string): Promise<LanguageDto | null>{
+        const language = await this.db.language.findUnique({
+            where: {name: name}
+        })
 
+        return language? new LanguageDto(language): null
+    }
 }

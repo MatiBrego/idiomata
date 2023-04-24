@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LanguageRepository = void 0;
+const language_dto_1 = require("./language.dto");
 class LanguageRepository {
     constructor(db) {
         this.db = db;
@@ -47,6 +48,14 @@ class LanguageRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield this.db.language.findMany({});
             return response.map((json) => { return json.name; });
+        });
+    }
+    getByName(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const language = yield this.db.language.findUnique({
+                where: { name: name }
+            });
+            return language ? new language_dto_1.LanguageDto(language) : null;
         });
     }
 }

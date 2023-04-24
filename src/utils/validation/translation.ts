@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { WordRepository } from "../domain/word/word.repository";
-import { db } from "./db";
-import { wordRouter } from "../domain/word/word.controller";
+import { WordRepository } from "../../domain/word/word.repository";
+import { db } from "../db";
+
 
 export const validateTranslationBody = async (req: Request, res: Response, next: any) => {
     let word = req.params.word;

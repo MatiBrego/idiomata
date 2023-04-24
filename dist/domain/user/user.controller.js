@@ -34,7 +34,7 @@ exports.userRouter.put('/updatePassword', auth_1.withAuth, (req, res) => __await
     yield userService.changeUsersPassword(Number(userId), newPassword);
     res.send("Password updated");
 }));
-exports.userRouter.put('/updateEmail', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userRouter.put('/updateEmail', user_1.validateUserBody, auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = res.locals.context;
     const newEmail = req.body.email;
     yield userService.changeUsersEmail(Number(userId), newEmail);

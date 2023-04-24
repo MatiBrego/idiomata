@@ -37,7 +37,7 @@ userRouter.put('/updatePassword', withAuth, async (req, res) => {
     res.send("Password updated")
 })
 
-userRouter.put('/updateEmail', withAuth, async (req, res) => {
+userRouter.put('/updateEmail', validateUserBody, withAuth, async (req, res) => {
     const userId = res.locals.context;
 
     const newEmail = req.body.email;

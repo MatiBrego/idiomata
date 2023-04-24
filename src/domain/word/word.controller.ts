@@ -3,14 +3,15 @@ import { WordService } from "./word.service";
 import { WordRepository } from "./word.repository";
 import { db } from "../../utils/db";
 import { validateTranslationBody } from "../../utils/validation/translation";
-validateTranslationBody
+import { validateWordBody } from "../../utils/validation/word";
+
 export const wordRouter = Router();
 
 const wordService = new WordService(new WordRepository(db));
 
 
 // Endpoint to create a word
-wordRouter.post("/", async (req, res) => {
+wordRouter.post("/", validateWordBody, async (req, res) => {
     const data = req.body
 
     const wordCreated = await wordService.createWord(data);

@@ -4,6 +4,7 @@ import { withAuth } from "../../utils/auth";
 import { UserDto } from "./user.dto";
 import { UserRepository } from "./user.repository";
 import { UserService } from "./user.service";
+import { validateUserBody } from "../../utils/validation/user";
 
 
 export const userRouter = Router();
@@ -12,7 +13,7 @@ const userService = new UserService(new UserRepository(db))
 
 
 
-userRouter.post('/', async (req, res) => {
+userRouter.post('/', validateUserBody, async (req, res) => {
     const user = req.body;
 
     const result = await userService.createUser(user)

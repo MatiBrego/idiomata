@@ -15,9 +15,10 @@ const db_1 = require("../../utils/db");
 const auth_1 = require("../../utils/auth");
 const user_repository_1 = require("./user.repository");
 const user_service_1 = require("./user.service");
+const user_1 = require("../../utils/validation/user");
 exports.userRouter = (0, express_1.Router)();
 const userService = new user_service_1.UserService(new user_repository_1.UserRepository(db_1.db));
-exports.userRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userRouter.post('/', user_1.validateUserBody, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.body;
     const result = yield userService.createUser(user);
     res.json(result);

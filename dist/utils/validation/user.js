@@ -9,23 +9,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateWordBody = void 0;
+exports.validateUserBody = void 0;
 const db_1 = require("../db");
-const word_repository_1 = require("../../domain/word/word.repository");
-const validateWordBody = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const word = req.body.inEnglish;
-    if (word) {
-        if ((yield existsWordByName(word))) {
-            return res.status(400).send("Word already exists");
+const user_repository_1 = require("../../domain/user/user.repository");
+const validateUserBody = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const email = req.body.email;
+    if (email) {
+        if ((yield existsUserByEmail(email))) {
+            return res.status(409).send("Email already exists");
         }
         next();
         return;
     }
 });
-exports.validateWordBody = validateWordBody;
-function existsWordByName(word) {
+exports.validateUserBody = validateUserBody;
+function existsUserByEmail(email) {
     return __awaiter(this, void 0, void 0, function* () {
-        const wordRepository = new word_repository_1.WordRepository(db_1.db);
-        return yield wordRepository.getUniqueWord(word);
+        const userRepository = new user_repository_1.UserRepository(db_1.db);
+        return yield userRepository.getUserByEmail(email);
     });
 }

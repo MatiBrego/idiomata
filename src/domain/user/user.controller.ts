@@ -4,7 +4,7 @@ import { withAuth } from "../../utils/auth";
 import { UserDto } from "./user.dto";
 import { UserRepository } from "./user.repository";
 import { UserService } from "./user.service";
-import { validateUserBody } from "../../utils/validation/user";
+import { validateThatEmailExists, validateUserBody } from "../../utils/validation/user";
 
 
 export const userRouter = Router();
@@ -20,12 +20,13 @@ userRouter.post('/', validateUserBody, async (req, res) => {
     res.json(result)
 })
 
-userRouter.delete('/:userId', async (req, res) => {
-    const userId = req.params.userId;
 
-    await userService.deleteUser(Number(userId))
+userRouter.delete('/:userEmail', validateThatEmailExists,async (req, res) => {
+    const userEmail = req.params.userEmail;
 
-    res.send("User " + userId + " was deleted")
+    await userService.deleteUserByEmail(userEmail);
+
+    res.status(200).send("User with email " + userEmail + " was deleted.")
 })
 
 userRouter.put('/updatePassword', withAuth, async (req, res) => {

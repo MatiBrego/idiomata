@@ -19,9 +19,9 @@ class UserService {
             return yield this.repository.create(user);
         });
     }
-    deleteUser(userId) {
+    deleteUserByEmail(userEmail) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.repository.delete(userId);
+            yield this.repository.deleteByEmail(userEmail);
         });
     }
     changeUsersPassword(userId, newPassword) {

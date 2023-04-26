@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateUserBody = void 0;
+exports.validateThatEmailExists = exports.validateUserBody = void 0;
 const db_1 = require("../db");
 const user_repository_1 = require("../../domain/user/user.repository");
 const validateUserBody = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -23,6 +23,18 @@ const validateUserBody = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.validateUserBody = validateUserBody;
+const validateThatEmailExists = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const email = req.params.userEmail;
+    if (email) {
+        if (!(yield existsUserByEmail(email))) {
+            return res.status(404).send("Email not found");
+        }
+        next();
+        return;
+    }
+    return res.status(400).send("Email missing");
+});
+exports.validateThatEmailExists = validateThatEmailExists;
 function existsUserByEmail(email) {
     return __awaiter(this, void 0, void 0, function* () {
         const userRepository = new user_repository_1.UserRepository(db_1.db);

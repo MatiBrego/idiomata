@@ -12,10 +12,10 @@ export class UserRepository {
         return userResult
     }
 
-    async delete(userId: number): Promise<void>{
+    async deleteByEmail(userEmail: string): Promise<void>{
         await this.db.user.delete({
-            where: {
-                id: userId
+            where:{
+                email: userEmail
             }
         })
     }

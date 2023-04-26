@@ -27,4 +27,8 @@ export class WordService{
     async deleteTranslation(translationId: number){
         await this.repository.deleteTranslation(translationId);
     }
+
+    async updateWord(oldWord: string, newWord: string){
+        await this.repository.updateWord(oldWord, newWord);
+    }
 }

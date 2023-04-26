@@ -3,7 +3,7 @@ import { WordService } from "./word.service";
 import { WordRepository } from "./word.repository";
 import { db } from "../../utils/db";
 import { validateTranslationBody } from "../../utils/validation/translation";
-import { validateWordBody } from "../../utils/validation/word";
+import { validateWordBody, validateWordUpdateBody } from "../../utils/validation/word";
 
 export const wordRouter = Router();
 
@@ -56,4 +56,11 @@ wordRouter.delete("/translation", validateTranslationBody, async (req, res) => {
     const translationId = req.body.id
     await wordService.deleteTranslation(translationId)
     res.status(200).json("Translation with id " + translationId + " was deleted")
+})
+
+wordRouter.post("/update", validateWordUpdateBody, async (req, res) => {
+    const oldWord = req.body.oldWord
+    const newWord = req.body.newWord
+    await wordService.updateWord(oldWord, newWord)
+    res.status(200).send("Word updated")
 })

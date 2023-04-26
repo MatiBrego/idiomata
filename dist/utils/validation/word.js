@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateWordBody = void 0;
+exports.validateWordUpdateBody = exports.validateWordBody = void 0;
 const db_1 = require("../db");
 const word_repository_1 = require("../../domain/word/word.repository");
 const validateWordBody = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -29,3 +29,20 @@ function existsWordByName(word) {
         return yield wordRepository.getUniqueWord(word);
     });
 }
+const validateWordUpdateBody = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const oldWord = req.body.oldWord;
+    const newWord = req.body.newWord;
+    if (oldWord) {
+        if (!(yield existsWordByName(oldWord))) {
+            return res.status(400).send("Word does not exist");
+        }
+    }
+    if (newWord) {
+        if ((yield existsWordByName(newWord))) {
+            return res.status(400).send("Word already exists");
+        }
+        next();
+        return;
+    }
+});
+exports.validateWordUpdateBody = validateWordUpdateBody;

@@ -51,3 +51,9 @@ exports.wordRouter.delete("/translation", translation_1.validateTranslationBody,
     yield wordService.deleteTranslation(translationId);
     res.status(200).json("Translation with id " + translationId + " was deleted");
 }));
+exports.wordRouter.post("/update", word_1.validateWordUpdateBody, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const oldWord = req.body.oldWord;
+    const newWord = req.body.newWord;
+    yield wordService.updateWord(oldWord, newWord);
+    res.status(200).send("Word updated");
+}));

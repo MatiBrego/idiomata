@@ -107,4 +107,11 @@ export class WordRepository{
         })
         return translation? new TranslationDto(translation) : null
     }
+
+    async updateWord(oldWord: string, newWord: string){
+        const word = await this.db.word.update({
+            where: {inEnglish: oldWord},
+            data: {inEnglish: newWord}
+        })
+    }
 }

@@ -121,5 +121,13 @@ class WordRepository {
             return translation ? new word_dto_1.TranslationDto(translation) : null;
         });
     }
+    updateWord(oldWord, newWord) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const word = yield this.db.word.update({
+                where: { inEnglish: oldWord },
+                data: { inEnglish: newWord }
+            });
+        });
+    }
 }
 exports.WordRepository = WordRepository;

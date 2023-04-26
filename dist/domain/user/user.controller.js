@@ -23,10 +23,10 @@ exports.userRouter.post('/', user_1.validateUserBody, (req, res) => __awaiter(vo
     const result = yield userService.createUser(user);
     res.json(result);
 }));
-exports.userRouter.delete('/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.params.userId;
-    yield userService.deleteUser(Number(userId));
-    res.send("User " + userId + " was deleted");
+exports.userRouter.delete('/:userEmail', user_1.validateThatEmailExists, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userEmail = req.params.userEmail;
+    yield userService.deleteUserByEmail(userEmail);
+    res.status(200).send("User with email " + userEmail + " was deleted.");
 }));
 exports.userRouter.put('/updatePassword', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = res.locals.context;

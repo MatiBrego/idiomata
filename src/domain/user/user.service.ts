@@ -8,8 +8,8 @@ export class UserService{
         return await this.repository.create(user);
     }
 
-    async deleteUser(userId: number): Promise<void>{
-        await this.repository.delete(userId);
+    async deleteUserByEmail(userEmail: string): Promise<void>{
+        await this.repository.deleteByEmail(userEmail);
     }
 
     async changeUsersPassword(userId: number, newPassword: string): Promise<void>{

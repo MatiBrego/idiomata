@@ -23,11 +23,11 @@ class UserRepository {
             return userResult;
         });
     }
-    delete(userId) {
+    deleteByEmail(userEmail) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.db.user.delete({
                 where: {
-                    id: userId
+                    email: userEmail
                 }
             });
         });

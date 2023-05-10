@@ -33,6 +33,8 @@ model Language{
 
   translations Translation[] @relation("translation") // One to many relationship
   attempts WordAttempt[] @relation("wordAttempt")
+  senteces Sentence[] @relation("sentence")
+
 }
 
 model Word{
@@ -44,6 +46,7 @@ model Word{
 
   translations Translation[] @relation("translation") // One to many relationship
   wordAttempts WordAttempt[] @relation("wordAttempt")
+  word SentenceBlank[] @relation("blank")
 }
 
 model Translation{
@@ -77,4 +80,34 @@ model WordAttempt{
   user User @relation("wordAttempt", fields: [userId], references: [id], onDelete: Cascade)
   word Word @relation("wordAttempt", fields: [wordId], references: [id], onDelete: Cascade)
   language Language @relation("wordAttempt", fields: [languageId], references: [id], onDelete: Cascade)
+}
+
+model Sentence{
+  id Int @id @default(autoincrement())
+  languageId Int
+  difficulty Difficulty
+
+  language Language @relation("sentence", fields: [languageId], references: [id], onDelete: Cascade)
+
+  blanks SentenceBlank[] @relation("blank")
+  parts SentencePart[] @relation("part")
+}
+
+model SentenceBlank{
+  id Int @id @default(autoincrement())
+  wordId Int
+  sentenceId Int
+  position Int
+
+  sentence Sentence @relation("blank", fields: [sentenceId], references: [id], onDelete: Cascade)
+  word Word @relation("blank", fields: [wordId], references: [id], onDelete: Cascade)
+}
+
+model SentencePart{
+  id Int @id @default(autoincrement())
+  sentenceId Int
+  content String
+  position Int
+
+  sentence Sentence @relation("part", fields: [sentenceId], references: [id], onDelete: Cascade)
 }

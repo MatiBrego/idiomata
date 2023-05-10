@@ -12,5 +12,22 @@ export class StatsService{
         return await this.repository.getAllAttemptsByUser(userId, searchInput);
     }
 
-    
+    async getAttemptsByWord(userId: number, searchInput: WordAttemptSearchInputDto){
+        const words = await this.repository.getAttemptsByWord(userId, searchInput)
+        //Declare new result array
+        const result: {word: string, errors:number}[] = [] 
+
+        //Add word and error number to result for each word
+        words.forEach(word => {
+            result.push({word: word.inEnglish, errors: word.wordAttempts.length})
+        });
+
+        //Sort by errors, descending order
+        result.sort((a, b) => {
+            if(a.errors < b.errors) return 1
+            if(a.errors > b.errors) return -1
+            return 0
+        })
+        return result
+    }
 }

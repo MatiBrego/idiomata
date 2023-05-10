@@ -7,8 +7,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const express_1 = __importDefault(require("express"));
 const router_1 = require("./router/router");
 const cors_1 = __importDefault(require("cors"));
-const seed_1 = require("./utils/seed");
-(0, seed_1.resetDb)();
+// resetDb()
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));

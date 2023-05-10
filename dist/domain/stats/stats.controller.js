@@ -24,10 +24,17 @@ exports.statsRouter.post('/wordAttempt', auth_1.withAuth, (req, res) => __awaite
     const attempt = yield statsService.createWordAttempt(data);
     res.status(200).json(attempt);
 }));
-// Enpoint to get all attempts made by a user. Body may have language, category and difficulty
+// Enpoint to get all attempts made by a user. QueryParams must have language, may have category and difficulty
 exports.statsRouter.get('/wordAttempt', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = req.body;
+    const data = req.query;
     const userId = res.locals.context;
     const attempts = yield statsService.getWordAttemptsByUserId(userId, data);
+    res.status(200).json(attempts);
+}));
+//Returns wordAttempts with the quantity of errors made in each word, in descending order 
+exports.statsRouter.get('/wordAttempt/errorsByWord', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.query;
+    const userId = res.locals.context;
+    const attempts = yield statsService.getAttemptsByWord(userId, data);
     res.status(200).json(attempts);
 }));

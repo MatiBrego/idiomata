@@ -24,7 +24,8 @@ class StatsRepository {
                         translation: { connect: { id: wordAttempt.translationId } },
                         user: { connect: { id: wordAttempt.userId } },
                         correct: wordAttempt.correct,
-                        word: { connect: { inEnglish: wordAttempt.word } }
+                        word: { connect: { inEnglish: wordAttempt.word } },
+                        language: { connect: { name: wordAttempt.language } }
                     }
                 });
             }
@@ -33,7 +34,8 @@ class StatsRepository {
                     data: {
                         user: { connect: { id: wordAttempt.userId } },
                         correct: wordAttempt.correct,
-                        word: { connect: { inEnglish: wordAttempt.word } }
+                        word: { connect: { inEnglish: wordAttempt.word } },
+                        language: { connect: { name: wordAttempt.language } }
                     }
                 });
             }
@@ -45,28 +47,38 @@ class StatsRepository {
             const attempt = yield this.db.wordAttempt.findMany({
                 where: {
                     userId: userId,
-                    translation: {
-                        is: {
-                            language: {
-                                is: {
-                                    name: searchInput.language
-                                }
-                            },
-                            difficulty: searchInput.difficulty,
-                            word: {
-                                is: {
-                                    category: { is: { name: searchInput.category } }
-                                }
-                            }
-                        }
-                    }
+                    language: { name: searchInput.language }
                 },
                 select: {
                     id: true,
-                    correct: true
+                    correct: true,
+                    word: { select: { inEnglish: true } }
                 }
             });
             return attempt;
+        });
+    }
+    getAttemptsByWord(userId, searchInput) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const attempts = yield this.db.word.findMany({
+                where: {
+                    wordAttempts: {
+                        some: {
+                            AND: {
+                                userId: userId,
+                                correct: false,
+                                language: { name: searchInput.language }
+                            }
+                        }
+                    },
+                    category: { name: searchInput.category }
+                },
+                select: {
+                    inEnglish: true,
+                    wordAttempts: { where: { correct: false, language: { name: searchInput.language }, userId: userId }, select: { id: true } }
+                }
+            });
+            return attempts;
         });
     }
 }

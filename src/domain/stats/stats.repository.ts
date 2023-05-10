@@ -12,7 +12,8 @@ export class StatsRepository{
                     translation: {connect: {id: wordAttempt.translationId}},
                     user: {connect: {id: wordAttempt.userId}},
                     correct: wordAttempt.correct,
-                    word: {connect: {inEnglish: wordAttempt.word}}
+                    word: {connect: {inEnglish: wordAttempt.word}},
+                    language: {connect: {name: wordAttempt.language}}
                 }
             })
         }else{
@@ -20,7 +21,8 @@ export class StatsRepository{
                 data: {
                     user: {connect: {id: wordAttempt.userId}},
                     correct: wordAttempt.correct,
-                    word: {connect: {inEnglish: wordAttempt.word}}
+                    word: {connect: {inEnglish: wordAttempt.word}},
+                    language: {connect: {name: wordAttempt.language}}
                 }
             })
         }
@@ -32,28 +34,38 @@ export class StatsRepository{
         const attempt = await this.db.wordAttempt.findMany({
             where: {
                 userId: userId,
-                translation: {
-                    is: {
-                        language: {
-                            is: {
-                                name: searchInput.language
-                            }
-                        },
-                        difficulty: searchInput.difficulty,
-                        word: {
-                            is: {
-                                category: {is: {name: searchInput.category}}
-                            }
-                        }
-                    }
-                }
+                language: {name: searchInput.language}
             },
             select: {
                 id: true,
-                correct: true
+                correct: true,
+                word: {select: {inEnglish: true}}
             }
         })
 
         return attempt
+    }
+
+    async getAttemptsByWord(userId: number, searchInput: WordAttemptSearchInputDto){
+        const attempts = await this.db.word.findMany({
+            where: {
+                wordAttempts: {
+                    some: {
+                        AND:{
+                            userId: userId,
+                            correct: false,
+                            language: {name: searchInput.language}
+                        }
+                    }
+                },
+                category: {name: searchInput.category}
+            },
+            select: {
+                inEnglish: true,
+                wordAttempts: {where: {correct: false, language: {name: searchInput.language}, userId: userId}, select: {id: true}}
+            }
+        })
+
+        return attempts
     }
 }

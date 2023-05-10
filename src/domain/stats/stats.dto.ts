@@ -1,16 +1,19 @@
 import { Difficulty } from "@prisma/client"
+import { strict } from "assert"
 
 export class WordAttemptInputDto{
     userId: number
     translationId: number
     correct: boolean
     word: string
+    language: string
 
     constructor(attempt: WordAttemptInputDto){
         this.userId = attempt.userId
         this.translationId = attempt.translationId
         this.correct = attempt.correct
         this.word = attempt.word
+        this.language = attempt.language
     }
 }
 

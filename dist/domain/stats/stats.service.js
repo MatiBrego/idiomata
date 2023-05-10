@@ -24,5 +24,25 @@ class StatsService {
             return yield this.repository.getAllAttemptsByUser(userId, searchInput);
         });
     }
+    getAttemptsByWord(userId, searchInput) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const words = yield this.repository.getAttemptsByWord(userId, searchInput);
+            //Declare new result array
+            const result = [];
+            //Add word and error number to result for each word
+            words.forEach(word => {
+                result.push({ word: word.inEnglish, errors: word.wordAttempts.length });
+            });
+            //Sort by errors, descending order
+            result.sort((a, b) => {
+                if (a.errors < b.errors)
+                    return 1;
+                if (a.errors > b.errors)
+                    return -1;
+                return 0;
+            });
+            return result;
+        });
+    }
 }
 exports.StatsService = StatsService;

@@ -32,6 +32,7 @@ model Language{
   name String @unique
 
   translations Translation[] @relation("translation") // One to many relationship
+  attempts WordAttempt[] @relation("wordAttempt")
 }
 
 model Word{
@@ -70,8 +71,10 @@ model WordAttempt{
   translationId Int?  
   userId Int
   wordId Int
+  languageId Int
 
   translation Translation? @relation("wordAttempt", fields: [translationId], references: [id], onDelete: Cascade)
   user User @relation("wordAttempt", fields: [userId], references: [id], onDelete: Cascade)
   word Word @relation("wordAttempt", fields: [wordId], references: [id], onDelete: Cascade)
+  language Language @relation("wordAttempt", fields: [languageId], references: [id], onDelete: Cascade)
 }

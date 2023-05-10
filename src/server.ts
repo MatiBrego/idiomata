@@ -4,7 +4,7 @@ import { router } from "./router/router";
 import cors from "cors";
 import { resetDb } from "./utils/seed";
 
-resetDb()
+// resetDb()
 
 const app = express();
 

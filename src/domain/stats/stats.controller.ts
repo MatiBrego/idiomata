@@ -20,7 +20,7 @@ statsRouter.post('/wordAttempt', withAuth, async (req, res) => {
 })
 
 // Enpoint to get all attempts made by a user. QueryParams must have language, may have category and difficulty
-statsRouter.get('/wordAttempt', withAuth, async (req: Request<{}, {}, {}, {language: string, category?: string}>, res: Response) => {
+statsRouter.get('/wordAttempt', withAuth, async (req: Request<{}, {}, {}, {language: string, category: string}>, res: Response) => {
     const data = req.query
     const userId = res.locals.context
 

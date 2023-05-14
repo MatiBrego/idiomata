@@ -19,7 +19,7 @@ export class SentenceDto{
 
 export class SentenceInputDto{
     language: string
-    difficulty?: Difficulty
+    difficulty: Difficulty | null
     parts: []
     wordsInEnglish: []
 

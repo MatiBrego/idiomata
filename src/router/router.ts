@@ -5,6 +5,7 @@ import { wordRouter } from "../domain/word/word.controller";
 import { categoryRouter } from "../domain/category/category.controller";
 import { languageRouter } from "../domain/language/language.controller";
 import { statsRouter } from "../domain/stats/stats.controller";
+import { sentenceRouter } from "../domain/sentence/sentence.controller";
 
 export const router = Router();
 
@@ -14,3 +15,4 @@ router.use('/word', wordRouter);
 router.use('/category', categoryRouter);
 router.use('/language', languageRouter);
 router.use('/stats', statsRouter)
+router.use('/sentence', sentenceRouter)

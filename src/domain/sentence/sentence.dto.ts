@@ -3,30 +3,40 @@ import { Difficulty } from "@prisma/client"
 // SentenceBlanks is an array of arrays where index 0 is word in english and the following elements are the possible translations of the word.
 export class SentenceDto{
     id: number
-    languageId: number
-    difficulty?: Difficulty
-    sentenceParts: []
-    sentenceBlanks: [[]]
+    language: string
+    difficulty: Difficulty | null
+    parts: string[]
+    blanks: string[]
 
     constructor(sentence: SentenceDto){
         this.id = sentence.id
-        this.languageId = sentence.languageId
+        this.language = sentence.language
         this.difficulty = sentence.difficulty
-        this.sentenceParts = sentence.sentenceParts
-        this.sentenceBlanks = sentence.sentenceBlanks
+        this.parts = sentence.parts
+        this.blanks = sentence.blanks
     }
 }
 
 export class SentenceInputDto{
-    languageId: number
+    language: string
     difficulty?: Difficulty
-    sentenceParts: []
+    parts: []
     wordsInEnglish: []
 
     constructor(sentenceInput: SentenceInputDto){
-        this.languageId = sentenceInput.languageId
+        this.language = sentenceInput.language
         this.difficulty = sentenceInput.difficulty
-        this.sentenceParts = sentenceInput.sentenceParts
+        this.parts = sentenceInput.parts
         this.wordsInEnglish = sentenceInput.wordsInEnglish
+    }
+}
+
+export class SentenceRequesterDto{
+    language: string
+    difficulty?: Difficulty
+
+    constructor(sentenceRequester: SentenceRequesterDto){
+        this.language = sentenceRequester.language
+        this.difficulty = sentenceRequester.difficulty
     }
 }

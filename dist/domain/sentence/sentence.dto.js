@@ -1,23 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SentenceInputDto = exports.SentenceDto = void 0;
+exports.SentenceRequesterDto = exports.SentenceInputDto = exports.SentenceDto = void 0;
 // SentenceBlanks is an array of arrays where index 0 is word in english and the following elements are the possible translations of the word.
 class SentenceDto {
     constructor(sentence) {
         this.id = sentence.id;
-        this.languageId = sentence.languageId;
+        this.language = sentence.language;
         this.difficulty = sentence.difficulty;
-        this.sentenceParts = sentence.sentenceParts;
-        this.sentenceBlanks = sentence.sentenceBlanks;
+        this.parts = sentence.parts;
+        this.blanks = sentence.blanks;
     }
 }
 exports.SentenceDto = SentenceDto;
 class SentenceInputDto {
     constructor(sentenceInput) {
-        this.languageId = sentenceInput.languageId;
+        this.language = sentenceInput.language;
         this.difficulty = sentenceInput.difficulty;
-        this.sentenceParts = sentenceInput.sentenceParts;
+        this.parts = sentenceInput.parts;
         this.wordsInEnglish = sentenceInput.wordsInEnglish;
     }
 }
 exports.SentenceInputDto = SentenceInputDto;
+class SentenceRequesterDto {
+    constructor(sentenceRequester) {
+        this.language = sentenceRequester.language;
+        this.difficulty = sentenceRequester.difficulty;
+    }
+}
+exports.SentenceRequesterDto = SentenceRequesterDto;

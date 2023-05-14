@@ -47,7 +47,8 @@ class StatsRepository {
             const attempt = yield this.db.wordAttempt.findMany({
                 where: {
                     userId: userId,
-                    language: { name: searchInput.language }
+                    language: { name: searchInput.language },
+                    word: { category: { name: searchInput.category } }
                 },
                 select: {
                     id: true,

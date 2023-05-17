@@ -52,22 +52,27 @@ export class SentenceRepository{
             select: {
                 id: true,
                 parts: true,
-                blanks: {select: {word: {select: {inEnglish: true, translations: {select: {translated: true}}}}}}
+                blanks: {select: {word: {select: {inEnglish: true, translations: {where: {language: {name: searchLanguage}}, select: {translated: true}}}}}}
             }
         })
 
-        const blanks: string[][] = []
+        const blanks: string[][][] = []
 
         result.forEach((sentence) => {
+            const sentenceBlanks: string[][] = []
+
             sentence.blanks.forEach((blank) => {
+
                 const array: string[] = []
                 array.push(blank.word.inEnglish)
-                blank.word.translations.forEach((tranlation) => {
-                    array.push(tranlation.translated)
+                blank.word.translations.forEach((translation) => {
+                    array.push(translation.translated)
                 })
 
-                blanks.push(array)
+                sentenceBlanks.push(array)
             })
+
+            blanks.push(sentenceBlanks)
         })
 
         return result.map((sentence, i) => {return {id: sentence.id, parts: sentence.parts, blanks: blanks[i]}})

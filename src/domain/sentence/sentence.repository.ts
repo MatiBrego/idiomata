@@ -29,9 +29,10 @@ export class SentenceRepository{
                 language: {select: {name: true}},
                 difficulty: true,
                 parts: true,
-                blanks: {select: {word: {select: {inEnglish: true}}}}
+                blanks: {select: {word: {select: {inEnglish: true, translations: {select: {translated: true}}}}}}
             }
         })
+        console.log(result)
         return new SentenceDto({id: result.id, language: result.language.name, difficulty: result.difficulty, blanks: result.blanks.map((blank) => {return blank.word.inEnglish}), parts: result.parts.map((part) => {return part.content})})
     }
 

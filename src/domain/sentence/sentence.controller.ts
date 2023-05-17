@@ -22,3 +22,11 @@ sentenceRouter.get("/:language", async (req, res) => {
 
     res.status(200).json(result)
 })
+
+sentenceRouter.delete("/:id",async (req, res) => {
+    const sentenceId = req.params.id
+
+    await sentenceService.deleteSentenceById(Number(sentenceId))
+
+    res.status(200).send("Sentence deleted")
+})

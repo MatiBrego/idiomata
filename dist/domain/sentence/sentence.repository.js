@@ -40,7 +40,7 @@ class SentenceRepository {
                     language: { select: { name: true } },
                     difficulty: true,
                     parts: true,
-                    blanks: { select: { word: { select: { inEnglish: true, translations: { select: { translated: true } } } } } }
+                    blanks: { select: { word: { select: { inEnglish: true } } } }
                 }
             });
             console.log(result);
@@ -65,10 +65,21 @@ class SentenceRepository {
                 select: {
                     id: true,
                     parts: true,
-                    blanks: { select: { word: { select: { inEnglish: true } } } }
+                    blanks: { select: { word: { select: { inEnglish: true, translations: { select: { translated: true } } } } } }
                 }
             });
-            return result;
+            const blanks = [];
+            result.forEach((sentence) => {
+                sentence.blanks.forEach((blank) => {
+                    const array = [];
+                    array.push(blank.word.inEnglish);
+                    blank.word.translations.forEach((tranlation) => {
+                        array.push(tranlation.translated);
+                    });
+                    blanks.push(array);
+                });
+            });
+            return result.map((sentence, i) => { return { id: sentence.id, parts: sentence.parts, blanks: blanks[i] }; });
         });
     }
 }

@@ -24,5 +24,10 @@ class SentenceService {
             return yield this.sentenceRepository.getSentences(language);
         });
     }
+    deleteSentenceById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.sentenceRepository.deleteSentenceById(id);
+        });
+    }
 }
 exports.SentenceService = SentenceService;

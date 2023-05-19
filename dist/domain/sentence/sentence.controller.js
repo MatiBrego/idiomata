@@ -26,3 +26,8 @@ exports.sentenceRouter.get("/:language", (req, res) => __awaiter(void 0, void 0,
     const result = yield sentenceService.getSentencesByLanguage(language);
     res.status(200).json(result);
 }));
+exports.sentenceRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const sentenceId = req.params.id;
+    yield sentenceService.deleteSentenceById(Number(sentenceId));
+    res.status(200).send("Sentence deleted");
+}));

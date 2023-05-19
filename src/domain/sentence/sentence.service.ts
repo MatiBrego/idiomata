@@ -11,4 +11,8 @@ export class SentenceService{
     async getSentencesByLanguage(language: string){
         return await this.sentenceRepository.getSentences(language)
     }
+
+    async deleteSentenceById(id: number){
+        return await this.sentenceRepository.deleteSentenceById(id)
+    }
 }

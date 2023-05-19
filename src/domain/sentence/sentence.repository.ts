@@ -32,6 +32,7 @@ export class SentenceRepository{
                 blanks: {select: {word: {select: {inEnglish: true}}}}
             }
         })
+        console.log(result)
         return new SentenceDto({id: result.id, language: result.language.name, difficulty: result.difficulty, blanks: result.blanks.map((blank) => {return blank.word.inEnglish}), parts: result.parts.map((part) => {return part.content})})
     }
 
@@ -43,7 +44,7 @@ export class SentenceRepository{
         })
     }
 
-    async getSentences(searchLanguage: string): Promise<{blanks: {word: {inEnglish: string}}[], parts: SentencePart[], id: number}[]>{
+    async getSentences(searchLanguage: string): Promise<any>{
         const result = await this.db.sentence.findMany({
             where: {
                 language: {name: searchLanguage}
@@ -51,9 +52,29 @@ export class SentenceRepository{
             select: {
                 id: true,
                 parts: true,
-                blanks: {select: {word: {select: {inEnglish: true}}}}
+                blanks: {select: {word: {select: {inEnglish: true, translations: {where: {language: {name: searchLanguage}}, select: {translated: true}}}}}}
             }
         })
-        return result
+
+        const blanks: string[][][] = []
+
+        result.forEach((sentence) => {
+            const sentenceBlanks: string[][] = []
+
+            sentence.blanks.forEach((blank) => {
+
+                const array: string[] = []
+                array.push(blank.word.inEnglish)
+                blank.word.translations.forEach((translation) => {
+                    array.push(translation.translated)
+                })
+
+                sentenceBlanks.push(array)
+            })
+
+            blanks.push(sentenceBlanks)
+        })
+
+        return result.map((sentence, i) => {return {id: sentence.id, parts: sentence.parts, blanks: blanks[i]}})
     }
 }

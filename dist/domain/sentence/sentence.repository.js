@@ -43,6 +43,7 @@ class SentenceRepository {
                     blanks: { select: { word: { select: { inEnglish: true } } } }
                 }
             });
+            console.log(result);
             return new sentence_dto_1.SentenceDto({ id: result.id, language: result.language.name, difficulty: result.difficulty, blanks: result.blanks.map((blank) => { return blank.word.inEnglish; }), parts: result.parts.map((part) => { return part.content; }) });
         });
     }
@@ -64,10 +65,23 @@ class SentenceRepository {
                 select: {
                     id: true,
                     parts: true,
-                    blanks: { select: { word: { select: { inEnglish: true } } } }
+                    blanks: { select: { word: { select: { inEnglish: true, translations: { where: { language: { name: searchLanguage } }, select: { translated: true } } } } } }
                 }
             });
-            return result;
+            const blanks = [];
+            result.forEach((sentence) => {
+                const sentenceBlanks = [];
+                sentence.blanks.forEach((blank) => {
+                    const array = [];
+                    array.push(blank.word.inEnglish);
+                    blank.word.translations.forEach((translation) => {
+                        array.push(translation.translated);
+                    });
+                    sentenceBlanks.push(array);
+                });
+                blanks.push(sentenceBlanks);
+            });
+            return result.map((sentence, i) => { return { id: sentence.id, parts: sentence.parts, blanks: blanks[i] }; });
         });
     }
 }

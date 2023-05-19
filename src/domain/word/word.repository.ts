@@ -39,7 +39,7 @@ export class WordRepository{
             where: {
                 AND:[
                     {category: {is: {name: request.category}}},
-                    {translations: {some: {language: {name: request.language}}}}
+                    {translations: {some: {language: {name: request.language}, difficulty: request.difficulty}}}
                 ]
             },
             select: {

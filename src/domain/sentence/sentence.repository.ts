@@ -52,7 +52,7 @@ export class SentenceRepository{
             select: {
                 id: true,
                 parts: true,
-                blanks: {select: {word: {select: {inEnglish: true, translations: {where: {language: {name: searchLanguage}}, select: {translated: true}}}}}}
+                blanks: {select: {word: {select: {inEnglish: true, translations: {where: {language: {name: searchLanguage}}, select: {translated: true}}}}}, orderBy: {position: "asc"}}
             }
         })
 

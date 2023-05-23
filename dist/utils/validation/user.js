@@ -14,9 +14,13 @@ const db_1 = require("../db");
 const user_repository_1 = require("../../domain/user/user.repository");
 const validateUserBody = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.body.email;
+    const password = req.body.password;
     if (email) {
         if ((yield existsUserByEmail(email))) {
             return res.status(409).send("Email already exists");
+        }
+        if (password === "" || password.includes(" ")) {
+            return res.status(400).send("Invalid Password");
         }
         next();
         return;

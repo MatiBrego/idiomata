@@ -4,9 +4,11 @@ import { UserRepository } from "../../domain/user/user.repository";
 
 export const validateUserBody = async (req: Request, res: Response, next: any) => {
     const email = req.body.email;
+    const password = req.body.password;
 
     if(email){
         if((await existsUserByEmail(email))){ return res.status(409).send("Email already exists")}
+        if(password === "" || password.includes(" ")){return res.status(400).send("Invalid Password")}
 
         next()
         return

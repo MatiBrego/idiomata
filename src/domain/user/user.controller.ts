@@ -3,7 +3,7 @@ import { db } from "../../utils/db";
 import { withAuth } from "../../utils/auth";
 import { UserRepository } from "./user.repository";
 import { UserService } from "./user.service";
-import { validateThatEmailExists, validateUserBody } from "../../utils/validation/user";
+import { validatePassword, validateThatEmailExists, validateUserBody } from "../../utils/validation/user";
 
 
 export const userRouter = Router();
@@ -28,13 +28,13 @@ userRouter.delete('/:userEmail', validateThatEmailExists,async (req, res) => {
     res.status(200).send("User with email " + userEmail + " was deleted.")
 })
 
-userRouter.put('/updatePassword', withAuth, async (req, res) => {
+userRouter.put('/updatePassword', validatePassword, withAuth, async (req, res) => {
     const userId = res.locals.context;
 
     const newPassword = req.body.password;
 
     await userService.changeUsersPassword(Number(userId), newPassword);
-    res.send("Password updated")
+    res.status(200).send("Password updated")
 })
 
 userRouter.put('/updateEmail', validateUserBody, withAuth, async (req, res) => {

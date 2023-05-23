@@ -28,6 +28,17 @@ export const validateThatEmailExists = async (req: Request, res: Response, next:
     return res.status(400).send("Email missing")    
 }
 
+export const validatePassword = async (req: Request, res: Response, next: any) => {
+    const password = req.body.password;
+
+    if(password){
+        if(password === "" || password.includes(" ")){return res.status(400).send("Invalid Password")}
+
+        next()
+        return
+    }
+}
+
 async function existsUserByEmail(email: string){
     const userRepository = new UserRepository(db);
 

@@ -28,11 +28,11 @@ exports.userRouter.delete('/:userEmail', user_1.validateThatEmailExists, (req, r
     yield userService.deleteUserByEmail(userEmail);
     res.status(200).send("User with email " + userEmail + " was deleted.");
 }));
-exports.userRouter.put('/updatePassword', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userRouter.put('/updatePassword', user_1.validatePassword, auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = res.locals.context;
     const newPassword = req.body.password;
     yield userService.changeUsersPassword(Number(userId), newPassword);
-    res.send("Password updated");
+    res.status(200).send("Password updated");
 }));
 exports.userRouter.put('/updateEmail', user_1.validateUserBody, auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = res.locals.context;

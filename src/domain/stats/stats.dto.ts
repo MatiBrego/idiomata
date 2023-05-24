@@ -1,5 +1,4 @@
-import { Difficulty } from "@prisma/client"
-import { strict } from "assert"
+import { Difficulty, Game } from "@prisma/client"
 
 export class WordAttemptInputDto{
     userId: number
@@ -7,6 +6,7 @@ export class WordAttemptInputDto{
     correct: boolean
     word: string
     language: string
+    game: Game
 
     constructor(attempt: WordAttemptInputDto){
         this.userId = attempt.userId
@@ -14,6 +14,7 @@ export class WordAttemptInputDto{
         this.correct = attempt.correct
         this.word = attempt.word
         this.language = attempt.language
+        this.game = attempt.game
     }
 }
 
@@ -33,9 +34,11 @@ export class WordAttemptSearchInputDto{
     language?: string
     category?: string
     difficulty?: Difficulty
+    game?: Game 
 
     constructor(attempt: WordAttemptSearchInputDto){
         this.language = attempt.language
         this.difficulty = attempt.difficulty
+        this.game = attempt.game
     }    
 }

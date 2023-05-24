@@ -8,6 +8,7 @@ class WordAttemptInputDto {
         this.correct = attempt.correct;
         this.word = attempt.word;
         this.language = attempt.language;
+        this.game = attempt.game;
     }
 }
 exports.WordAttemptInputDto = WordAttemptInputDto;
@@ -23,6 +24,7 @@ class WordAttemptSearchInputDto {
     constructor(attempt) {
         this.language = attempt.language;
         this.difficulty = attempt.difficulty;
+        this.game = attempt.game;
     }
 }
 exports.WordAttemptSearchInputDto = WordAttemptSearchInputDto;

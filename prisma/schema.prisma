@@ -75,6 +75,7 @@ model WordAttempt{
   userId Int
   wordId Int
   languageId Int
+  game Game
 
   translation Translation? @relation("wordAttempt", fields: [translationId], references: [id], onDelete: Cascade)
   user User @relation("wordAttempt", fields: [userId], references: [id], onDelete: Cascade)
@@ -110,4 +111,10 @@ model SentencePart{
   position Int
 
   sentence Sentence @relation("part", fields: [sentenceId], references: [id], onDelete: Cascade)
+}
+
+enum Game{
+  TranslateIt
+  FillInTheGaps
+  Memotest
 }

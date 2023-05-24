@@ -3,6 +3,7 @@ import { StatsService } from "./stats.service";
 import { StatsRepository } from "./stats.repository";
 import { db } from "../../utils/db";
 import { withAuth } from "../../utils/auth";
+import { Difficulty, Game } from "@prisma/client";
 
 const statsService = new StatsService(new StatsRepository(db))
 
@@ -20,7 +21,7 @@ statsRouter.post('/wordAttempt', withAuth, async (req, res) => {
 })
 
 // Enpoint to get all attempts made by a user. QueryParams must have language, may have category and difficulty
-statsRouter.get('/wordAttempt', withAuth, async (req: Request<{}, {}, {}, {language: string, category: string}>, res: Response) => {
+statsRouter.get('/wordAttempt', withAuth, async (req: Request<{}, {}, {}, {language: string, category?: string, difficulty?: Difficulty, game?: Game}>, res: Response) => {
     const data = req.query
     const userId = res.locals.context
 
@@ -30,7 +31,7 @@ statsRouter.get('/wordAttempt', withAuth, async (req: Request<{}, {}, {}, {langu
 })
 
 //Returns wordAttempts with the quantity of errors made in each word, in descending order 
-statsRouter.get('/wordAttempt/errorsByWord', withAuth, async (req: Request<{}, {}, {}, {language: string, category?: string}>, res: Response) => {
+statsRouter.get('/wordAttempt/errorsByWord', withAuth, async (req: Request<{}, {}, {}, {language: string, category?: string, difficulty?: Difficulty, game?: Game}>, res: Response) => {
     const data = req.query
     const userId = res.locals.context
 

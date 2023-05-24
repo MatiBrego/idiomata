@@ -13,7 +13,8 @@ export class StatsRepository{
                     user: {connect: {id: wordAttempt.userId}},
                     correct: wordAttempt.correct,
                     word: {connect: {inEnglish: wordAttempt.word}},
-                    language: {connect: {name: wordAttempt.language}}
+                    language: {connect: {name: wordAttempt.language}},
+                    game: wordAttempt.game
                 }
             })
         }else{
@@ -22,7 +23,8 @@ export class StatsRepository{
                     user: {connect: {id: wordAttempt.userId}},
                     correct: wordAttempt.correct,
                     word: {connect: {inEnglish: wordAttempt.word}},
-                    language: {connect: {name: wordAttempt.language}}
+                    language: {connect: {name: wordAttempt.language}},
+                    game: wordAttempt.game
                 }
             })
         }
@@ -35,7 +37,8 @@ export class StatsRepository{
             where: {
                 userId: userId,
                 language: {name: searchInput.language},
-                word: {category: {name: searchInput.category}}
+                word: {category: {name: searchInput.category}},
+                game: searchInput.game
             },
             select: {
                 id: true,
@@ -55,15 +58,15 @@ export class StatsRepository{
                         AND:{
                             userId: userId,
                             correct: false,
-                            language: {name: searchInput.language}
+                            language: {name: searchInput.language},
                         }
                     }
                 },
-                category: {name: searchInput.category}
+                category: {name: searchInput.category},
             },
             select: {
                 inEnglish: true,
-                wordAttempts: {where: {correct: false, language: {name: searchInput.language}, userId: userId}, select: {id: true}}
+                wordAttempts: {where: {correct: false, language: {name: searchInput.language}, userId: userId, game: searchInput.game}, select: {id: true}}
             }
         })
 

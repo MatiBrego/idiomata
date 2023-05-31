@@ -17,6 +17,8 @@ model User {
   password String
   language String
   isAdmin Boolean @default(false)
+  friends User[] @relation("friends")
+  friendsAddedMe User[] @relation("friends")
 
   wordAttempts WordAttempt[] @relation("wordAttempt")
 }

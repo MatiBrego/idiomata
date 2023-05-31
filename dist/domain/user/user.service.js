@@ -44,5 +44,10 @@ class UserService {
             return yield this.repository.getUserByEmail(userEmail);
         });
     }
+    addFriend(userId, friendId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.repository.addFriend(userId, friendId);
+        });
+    }
 }
 exports.UserService = UserService;

@@ -45,3 +45,9 @@ exports.userRouter.get('/userData', auth_1.withAuth, (req, res) => __awaiter(voi
     const info = yield userService.getUserById(userId);
     res.json(info);
 }));
+exports.userRouter.put('/addFriend', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = res.locals.context;
+    const friendId = req.body.id;
+    yield userService.addFriend(userId, friendId);
+    res.status(200).send("Friend added successfully");
+}));

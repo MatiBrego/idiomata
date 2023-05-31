@@ -83,4 +83,31 @@ export class UserRepository {
             return null;
         }
     }
+
+    async addFriend(userId: number, friendId: number): Promise<void>{
+        await this.db.user.update({
+            where: {
+                id: userId,
+            },
+            data: {
+                friends: {
+                    connect: {
+                        id: friendId,
+                    },
+                },
+            },
+        })
+        await this.db.user.update({
+            where:{
+                id: friendId,
+            },
+            data: {
+                friends: {
+                    connect: {
+                        id: friendId,
+                    },
+                },
+            },
+        })
+    }
 }

@@ -101,5 +101,33 @@ class UserRepository {
             }
         });
     }
+    addFriend(userId, friendId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.db.user.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    friends: {
+                        connect: {
+                            id: friendId,
+                        },
+                    },
+                },
+            });
+            yield this.db.user.update({
+                where: {
+                    id: friendId,
+                },
+                data: {
+                    friends: {
+                        connect: {
+                            id: friendId,
+                        },
+                    },
+                },
+            });
+        });
+    }
 }
 exports.UserRepository = UserRepository;

@@ -27,4 +27,8 @@ export class UserService{
     async getUserByEmail(userEmail: string): Promise<UserDto | null>{
         return await this.repository.getUserByEmail(userEmail);
     }
+
+    async addFriend(userId: number, friendId: number): Promise<void>{
+        await this.repository.addFriend(userId, friendId);
+    }
 }

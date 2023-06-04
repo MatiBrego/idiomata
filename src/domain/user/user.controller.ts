@@ -58,6 +58,6 @@ userRouter.put('/addFriend', withAuth,async (req, res) => {
     const userId = res.locals.context;
     const friendId = req.body.id;
 
-    await userService.addFriend(userId, friendId);
+    await userService.addFriend(userId, Number(friendId));
     res.status(200).send("Friend added successfully")
 })

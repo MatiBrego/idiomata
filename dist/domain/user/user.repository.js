@@ -122,7 +122,7 @@ class UserRepository {
                 data: {
                     friends: {
                         connect: {
-                            id: friendId,
+                            id: userId,
                         },
                     },
                 },

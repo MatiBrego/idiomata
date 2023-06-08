@@ -84,7 +84,7 @@ export class UserRepository {
         }
     }
 
-    async addFriend(userId: number, friendId: number): Promise<void>{
+    async addFriend(userId: number, friendId: number): Promise<void> {
         await this.db.user.update({
             where: {
                 id: userId,
@@ -109,5 +109,51 @@ export class UserRepository {
                 },
             },
         })
+    }
+
+    async getFriendsByUser(userId: number): Promise<UserDto | null> {
+        return await this.db.user.findUnique({
+            where: {id: userId},
+            include: {
+                friends: {select: {
+                    id: true,
+                    name: true,
+                    email: true
+                }}
+            }
+        })
+    }
+
+    async deleteFriend(userId: number, friendId: number): Promise<void> {
+        await this.db.user.update({
+            where: {id: userId},
+            data: {
+                friends: {
+                    disconnect: {id: friendId}
+                }
+            }
+        })
+
+        await this.db.user.update({
+            where: {id: friendId},
+            data: {
+                friends: {
+                    disconnect: {id: userId}
+                }
+            }
+        })
+    }
+
+    async getFriendRequests(userId: number){
+        const requests = await this.db.user.findUnique({
+            where: {id: userId},
+            include: {
+                requestsReceived: {
+                    select: {requester: {select: {id: true, name: true, email: true}}}
+                }
+            }
+        })
+
+        return requests
     }
 }

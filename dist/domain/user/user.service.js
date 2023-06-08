@@ -11,8 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 class UserService {
-    constructor(repository) {
+    constructor(repository, requestRepository) {
         this.repository = repository;
+        this.requestRepository = requestRepository;
     }
     createUser(user) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -47,6 +48,31 @@ class UserService {
     addFriend(userId, friendId) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.repository.addFriend(userId, friendId);
+        });
+    }
+    getAllFriends(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getFriendsByUser(userId);
+        });
+    }
+    deleteFriend(userId, friendId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.repository.deleteFriend(userId, friendId);
+        });
+    }
+    sendFriendRequest(userId, friendId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.requestRepository.createFriendRequest(userId, friendId);
+        });
+    }
+    rejectFriendRequest(userId, friendId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.requestRepository.deleteFriendRequest(userId, friendId);
+        });
+    }
+    getFriendRequests(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getFriendRequests(userId);
         });
     }
 }

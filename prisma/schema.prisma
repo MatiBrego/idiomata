@@ -17,8 +17,11 @@ model User {
   password String
   language String
   isAdmin Boolean @default(false)
+
   friends User[] @relation("friends")
   friendsAddedMe User[] @relation("friends")
+  requestsSent FriendRequest[] @relation("requestsSent")
+  requestsReceived FriendRequest[] @relation("requestsReceived")
 
   wordAttempts WordAttempt[] @relation("wordAttempt")
 }
@@ -113,6 +116,15 @@ model SentencePart{
   position Int
 
   sentence Sentence @relation("part", fields: [sentenceId], references: [id], onDelete: Cascade)
+}
+
+model FriendRequest{
+  id Int @id @default(autoincrement())
+  requesterId Int
+  requestedId Int
+
+  requester User @relation("requestsSent", fields: requesterId, references: [id], onDelete: Cascade)
+  requested User @relation("requestsReceived", fields: requestedId, references: [id], onDelete: Cascade)
 }
 
 enum Game{

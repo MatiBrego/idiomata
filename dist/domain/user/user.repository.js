@@ -129,5 +129,52 @@ class UserRepository {
             });
         });
     }
+    getFriendsByUser(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.db.user.findUnique({
+                where: { id: userId },
+                include: {
+                    friends: { select: {
+                            id: true,
+                            name: true,
+                            email: true
+                        } }
+                }
+            });
+        });
+    }
+    deleteFriend(userId, friendId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.db.user.update({
+                where: { id: userId },
+                data: {
+                    friends: {
+                        disconnect: { id: friendId }
+                    }
+                }
+            });
+            yield this.db.user.update({
+                where: { id: friendId },
+                data: {
+                    friends: {
+                        disconnect: { id: userId }
+                    }
+                }
+            });
+        });
+    }
+    getFriendRequests(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const requests = yield this.db.user.findUnique({
+                where: { id: userId },
+                include: {
+                    requestsReceived: {
+                        select: { requester: { select: { id: true, name: true, email: true } } }
+                    }
+                }
+            });
+            return requests;
+        });
+    }
 }
 exports.UserRepository = UserRepository;

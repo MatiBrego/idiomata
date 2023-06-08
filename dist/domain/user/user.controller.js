@@ -16,8 +16,9 @@ const auth_1 = require("../../utils/auth");
 const user_repository_1 = require("./user.repository");
 const user_service_1 = require("./user.service");
 const user_1 = require("../../utils/validation/user");
+const request_repository_1 = require("../request/request.repository");
 exports.userRouter = (0, express_1.Router)();
-const userService = new user_service_1.UserService(new user_repository_1.UserRepository(db_1.db));
+const userService = new user_service_1.UserService(new user_repository_1.UserRepository(db_1.db), new request_repository_1.RequestRepository(db_1.db));
 exports.userRouter.post('/', user_1.validateUserBody, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.body;
     const result = yield userService.createUser(user);
@@ -50,4 +51,32 @@ exports.userRouter.put('/addFriend', auth_1.withAuth, (req, res) => __awaiter(vo
     const friendId = req.body.id;
     yield userService.addFriend(userId, Number(friendId));
     res.status(200).send("Friend added successfully");
+}));
+exports.userRouter.get('/friends', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = res.locals.context;
+    const friends = yield userService.getAllFriends(userId);
+    res.status(200).json(friends);
+}));
+exports.userRouter.delete('/friend/:friendId', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = res.locals.context;
+    const friendId = req.params.friendId;
+    yield userService.deleteFriend(userId, Number(friendId));
+    res.status(200).send("Friend deleted");
+}));
+exports.userRouter.post('/request', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = res.locals.context;
+    const friendId = req.body.friendId;
+    yield userService.sendFriendRequest(userId, Number(friendId));
+    res.status(200).send("Request Sent");
+}));
+exports.userRouter.delete('/request/:friendId', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = res.locals.context;
+    const friendId = req.params.friendId;
+    yield userService.rejectFriendRequest(userId, Number(friendId));
+    res.status(200).send("Request Deleted");
+}));
+exports.userRouter.get('/request', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = res.locals.context;
+    const requests = yield userService.getFriendRequests(userId);
+    res.status(200).json(requests);
 }));

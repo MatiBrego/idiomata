@@ -18,11 +18,10 @@ export function withAuth(req: Request, res: Response, next: any){
     return res.status(401).send({message: "Invalid Token"})
   }
 
-  //If token is not on the list, it is not valid
-  //TODO uncomment this
-  // if(!validTokens.has(token)){
-  //   return res.status(403).send({message: "Token no longer valid"})
-  // }
+  // If token is not on the list, it is not valid
+  if(!validTokens.has(token)){
+    return res.status(403).send({message: "Token no longer valid"})
+  }
 
   res.locals.context = payload.sub;
   next();

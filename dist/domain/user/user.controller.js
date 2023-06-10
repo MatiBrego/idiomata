@@ -63,10 +63,10 @@ exports.userRouter.delete('/friend/:friendId', auth_1.withAuth, (req, res) => __
     yield userService.deleteFriend(userId, Number(friendId));
     res.status(200).send("Friend deleted");
 }));
-exports.userRouter.post('/request', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userRouter.post('/request', auth_1.withAuth, user_1.validateThatEmailExists, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = res.locals.context;
-    const friendId = req.body.friendId;
-    yield userService.sendFriendRequest(userId, Number(friendId));
+    const friendEmail = req.body.userEmail;
+    yield userService.sendFriendRequest(userId, friendEmail);
     res.status(200).send("Request Sent");
 }));
 exports.userRouter.delete('/request/:friendId', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {

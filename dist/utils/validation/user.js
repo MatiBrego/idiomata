@@ -28,7 +28,7 @@ const validateUserBody = (req, res, next) => __awaiter(void 0, void 0, void 0, f
 });
 exports.validateUserBody = validateUserBody;
 const validateThatEmailExists = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const email = req.params.userEmail;
+    const email = req.params.userEmail || req.body.userEmail;
     if (email) {
         if (!(yield existsUserByEmail(email))) {
             return res.status(404).send("Email not found");

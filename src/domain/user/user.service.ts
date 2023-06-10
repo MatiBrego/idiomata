@@ -31,6 +31,7 @@ export class UserService{
 
     async addFriend(userId: number, friendId: number): Promise<void>{
         await this.repository.addFriend(userId, friendId);
+        await this.requestRepository.deleteFriendRequest(userId, friendId)
     }
 
     async getAllFriends(userId: number): Promise<UserDto | null>{
@@ -41,8 +42,8 @@ export class UserService{
         await this.repository.deleteFriend(userId, friendId);
     }
 
-    async sendFriendRequest(userId: number, friendId: number){
-        await this.requestRepository.createFriendRequest(userId, friendId);
+    async sendFriendRequest(userId: number, friendEmail: string){
+        await this.requestRepository.createFriendRequest(userId, friendEmail);
     }
 
     async rejectFriendRequest(userId: number, friendId: number){

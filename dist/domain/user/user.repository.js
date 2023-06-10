@@ -134,11 +134,14 @@ class UserRepository {
             return yield this.db.user.findUnique({
                 where: { id: userId },
                 include: {
-                    friends: { select: {
+                    friends: {
+                        select: {
                             id: true,
                             name: true,
-                            email: true
-                        } }
+                            email: true,
+                            wordAttempts: true
+                        }
+                    }
                 }
             });
         });

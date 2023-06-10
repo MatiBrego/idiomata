@@ -48,6 +48,7 @@ class UserService {
     addFriend(userId, friendId) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.repository.addFriend(userId, friendId);
+            yield this.requestRepository.deleteFriendRequest(userId, friendId);
         });
     }
     getAllFriends(userId) {
@@ -60,9 +61,9 @@ class UserService {
             yield this.repository.deleteFriend(userId, friendId);
         });
     }
-    sendFriendRequest(userId, friendId) {
+    sendFriendRequest(userId, friendEmail) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.requestRepository.createFriendRequest(userId, friendId);
+            yield this.requestRepository.createFriendRequest(userId, friendEmail);
         });
     }
     rejectFriendRequest(userId, friendId) {

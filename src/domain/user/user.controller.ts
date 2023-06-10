@@ -80,11 +80,11 @@ userRouter.delete('/friend/:friendId', withAuth, async (req, res) => {
     res.status(200).send("Friend deleted");
 })
 
-userRouter.post('/request', withAuth, async (req, res) => {
+userRouter.post('/request', withAuth, validateThatEmailExists,async (req, res) => {
     const userId = res.locals.context;
-    const friendId = req.body.friendId;
+    const friendEmail = req.body.userEmail;
 
-    await userService.sendFriendRequest(userId, Number(friendId));
+    await userService.sendFriendRequest(userId, friendEmail);
 
     res.status(200).send("Request Sent");
 })

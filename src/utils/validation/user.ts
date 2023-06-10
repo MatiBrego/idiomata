@@ -16,7 +16,7 @@ export const validateUserBody = async (req: Request, res: Response, next: any) =
 }
 
 export const validateThatEmailExists = async (req: Request, res: Response, next: any) => {
-    const email = req.params.userEmail;
+    const email = req.params.userEmail || req.body.userEmail;
 
     if(email){
         if(!(await existsUserByEmail(email))){ return res.status(404).send("Email not found")}

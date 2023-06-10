@@ -14,12 +14,12 @@ class RequestRepository {
     constructor(db) {
         this.db = db;
     }
-    createFriendRequest(userId, friendId) {
+    createFriendRequest(userId, friendEmail) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.db.friendRequest.create({
                 data: {
-                    requesterId: userId,
-                    requestedId: friendId
+                    requester: { connect: { id: userId } },
+                    requested: { connect: { email: friendEmail } }
                 }
             });
         });
@@ -28,8 +28,26 @@ class RequestRepository {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.db.friendRequest.deleteMany({
                 where: {
-                    requesterId: friendId,
-                    requestedId: userId
+                    OR: [
+                        { AND: [
+                                {
+                                    requestedId: userId
+                                },
+                                {
+                                    requesterId: friendId
+                                }
+                            ]
+                        },
+                        { AND: [
+                                {
+                                    requestedId: friendId
+                                },
+                                {
+                                    requesterId: userId
+                                }
+                            ]
+                        }
+                    ]
                 }
             });
         });

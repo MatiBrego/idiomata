@@ -1,4 +1,4 @@
-import { SentenceInputDto } from "./sentence.dto";
+import { SentenceDto, SentenceInputDto } from "./sentence.dto";
 import { SentenceRepository } from "./sentence.repository";
 
 export class SentenceService{
@@ -14,5 +14,11 @@ export class SentenceService{
 
     async deleteSentenceById(id: number){
         return await this.sentenceRepository.deleteSentenceById(id)
+    }
+
+    async updateSentence(sentence: SentenceDto){
+        await this.sentenceRepository.deleteSentenceById(sentence.id);
+        console.log(sentence)
+        return await this.sentenceRepository.createSentence({language: sentence.language, parts: sentence.parts, wordsInEnglish: sentence.blanks,difficulty: sentence.difficulty})
     }
 }

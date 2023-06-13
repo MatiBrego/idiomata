@@ -20,8 +20,8 @@ export class SentenceDto{
 export class SentenceInputDto{
     language: string
     difficulty: Difficulty | null
-    parts: []
-    wordsInEnglish: []
+    parts: string[]
+    wordsInEnglish: string[]
 
     constructor(sentenceInput: SentenceInputDto){
         this.language = sentenceInput.language

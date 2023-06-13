@@ -31,3 +31,8 @@ exports.sentenceRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, vo
     yield sentenceService.deleteSentenceById(Number(sentenceId));
     res.status(200).send("Sentence deleted");
 }));
+exports.sentenceRouter.put("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const sentence = req.body;
+    yield sentenceService.updateSentence(sentence);
+    res.status(200).send("Sentence updated");
+}));

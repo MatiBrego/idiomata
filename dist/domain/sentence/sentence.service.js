@@ -29,5 +29,12 @@ class SentenceService {
             return yield this.sentenceRepository.deleteSentenceById(id);
         });
     }
+    updateSentence(sentence) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.sentenceRepository.deleteSentenceById(sentence.id);
+            console.log(sentence);
+            return yield this.sentenceRepository.createSentence({ language: sentence.language, parts: sentence.parts, wordsInEnglish: sentence.blanks, difficulty: sentence.difficulty });
+        });
+    }
 }
 exports.SentenceService = SentenceService;

@@ -16,7 +16,8 @@ const auth_1 = require("../../utils/auth");
 const user_repository_1 = require("../user/user.repository");
 const user_service_1 = require("../user/user.service");
 const auth_service_1 = require("./auth.service");
-const authService = new auth_service_1.AuthService(new user_service_1.UserService(new user_repository_1.UserRepository(db_1.db)));
+const request_repository_1 = require("../request/request.repository");
+const authService = new auth_service_1.AuthService(new user_service_1.UserService(new user_repository_1.UserRepository(db_1.db), new request_repository_1.RequestRepository(db_1.db)));
 exports.authRouter = (0, express_1.Router)();
 //Endpoint to log in
 exports.authRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

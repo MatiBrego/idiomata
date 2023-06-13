@@ -30,3 +30,12 @@ sentenceRouter.delete("/:id",async (req, res) => {
 
     res.status(200).send("Sentence deleted")
 })
+
+sentenceRouter.put("/", async (req, res) => {
+    const sentence = req.body;
+
+    await sentenceService.updateSentence(sentence);
+
+
+    res.status(200).send("Sentence updated")
+})

@@ -4,9 +4,10 @@ import { removeAuth, withAuth } from "../../utils/auth";
 import { UserRepository } from "../user/user.repository";
 import { UserService } from "../user/user.service";
 import { AuthService } from "./auth.service";
+import { RequestRepository } from "../request/request.repository";
 
 
-const authService = new AuthService(new UserService(new UserRepository(db)))
+const authService = new AuthService(new UserService(new UserRepository(db), new RequestRepository(db)))
 
 export const authRouter = Router()
 

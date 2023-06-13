@@ -14,7 +14,7 @@ export const validateWordBody = async (req: Request, res: Response, next: any) =
     }
 }
 
-async function existsWordByName(word: string){
+export async function existsWordByName(word: string){
     const wordRepository = new WordRepository(db);
 
     return await wordRepository.getUniqueWord(word);

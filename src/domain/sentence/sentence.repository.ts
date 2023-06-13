@@ -1,4 +1,4 @@
-import { PrismaClient, SentencePart } from "@prisma/client";
+import { Difficulty, PrismaClient, SentencePart } from "@prisma/client";
 import { SentenceDto, SentenceInputDto, SentenceRequesterDto } from "./sentence.dto";
 
 
@@ -43,10 +43,11 @@ export class SentenceRepository{
         })
     }
 
-    async getSentences(searchLanguage: string): Promise<any>{
+    async getSentences(searchLanguage: string, difficulty: Difficulty | undefined): Promise<any>{
         const result = await this.db.sentence.findMany({
             where: {
-                language: {name: searchLanguage}
+                language: {name: searchLanguage},
+                difficulty: difficulty
             },
             select: {
                 id: true,

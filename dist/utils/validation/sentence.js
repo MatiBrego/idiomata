@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateDifficulty = exports.validateLanguage = exports.validateBlanks = void 0;
 const word_1 = require("./word");
 const validateBlanks = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const words = req.body.wordsInEnglish;
+    const words = req.body.wordsInEnglish || req.body.blanks;
     let hasInvalidWords = false;
     for (let i = 0; i < words.length; i++) {
         if (!(yield (0, word_1.existsWordByName)(words[i]))) {

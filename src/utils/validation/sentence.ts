@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { existsWordByName } from "./word";
 
 export const validateBlanks = async (req: Request, res: Response, next: any) => {
-    const words = req.body.wordsInEnglish
+    const words = req.body.wordsInEnglish || req.body.blanks
 
     let hasInvalidWords = false
 

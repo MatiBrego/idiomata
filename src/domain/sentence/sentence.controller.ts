@@ -35,7 +35,7 @@ sentenceRouter.delete("/:id", async (req, res) => {
     res.status(200).send("Sentence deleted")
 })
 
-sentenceRouter.put("/", async (req, res) => {
+sentenceRouter.put("/", validateBlanks,async (req, res) => {
     const sentence = req.body;
 
     await sentenceService.updateSentence(sentence);

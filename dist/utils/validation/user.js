@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validatePassword = exports.validateThatEmailExists = exports.validateUserBody = void 0;
+exports.validateFriendRequest = exports.validatePassword = exports.validateThatEmailExists = exports.validateUserBody = void 0;
 const db_1 = require("../db");
 const user_repository_1 = require("../../domain/user/user.repository");
 const validateUserBody = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -50,6 +50,21 @@ const validatePassword = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.validatePassword = validatePassword;
+const validateFriendRequest = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const userRepository = new user_repository_1.UserRepository(db_1.db);
+    const friendEmail = req.body.userEmail;
+    const friend = yield userRepository.getUserByEmail(friendEmail);
+    const friendRequests = yield userRepository.getFriendRequests(Number(friend === null || friend === void 0 ? void 0 : friend.id));
+    console.log(friendRequests);
+    if ((friend === null || friend === void 0 ? void 0 : friend.id) === res.locals.context) {
+        return res.status(400).send("Cannot add yourself as a friend");
+    }
+    else {
+        next();
+        return;
+    }
+});
+exports.validateFriendRequest = validateFriendRequest;
 function existsUserByEmail(email) {
     return __awaiter(this, void 0, void 0, function* () {
         const userRepository = new user_repository_1.UserRepository(db_1.db);

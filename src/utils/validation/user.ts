@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { db } from "../db";
 import { UserRepository } from "../../domain/user/user.repository";
+import { RequestRepository } from "../../domain/request/request.repository";
 
 export const validateUserBody = async (req: Request, res: Response, next: any) => {
     const email = req.body.email;
@@ -34,6 +35,24 @@ export const validatePassword = async (req: Request, res: Response, next: any) =
     if(password){
         if(password === "" || password.includes(" ")){return res.status(400).send("Invalid Password")}
 
+        next()
+        return
+    }
+}
+
+export const validateFriendRequest = async (req: Request, res: Response, next: any) => {
+    const userRepository = new UserRepository(db);
+    const requestRepository = new RequestRepository(db);
+    const friendEmail = req.body.userEmail;
+    const userId = res.locals.context
+    const friend = await userRepository.getUserByEmail(friendEmail);
+    const friendRequests = await requestRepository.getFriendRequest(userId, Number(friend?.id));
+
+    console.log(friendRequests)
+
+    if(friend?.id === userId){return res.status(400).send("Cannot add yourself as a friend")}
+    if(friendRequests === true){return res.status(400).send("Request already sent")}
+    else{
         next()
         return
     }

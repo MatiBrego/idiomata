@@ -3,7 +3,7 @@ import { db } from "../../utils/db";
 import { withAuth } from "../../utils/auth";
 import { UserRepository } from "./user.repository";
 import { UserService } from "./user.service";
-import { validatePassword, validateThatEmailExists, validateUserBody } from "../../utils/validation/user";
+import { validateFriendRequest, validatePassword, validateThatEmailExists, validateUserBody } from "../../utils/validation/user";
 import { RequestRepository } from "../request/request.repository";
 
 
@@ -80,13 +80,14 @@ userRouter.delete('/friend/:friendId', withAuth, async (req, res) => {
     res.status(200).send("Friend deleted");
 })
 
-userRouter.post('/request', withAuth, validateThatEmailExists,async (req, res) => {
+userRouter.post('/request', withAuth, validateThatEmailExists, validateFriendRequest, async (req, res) => {
     const userId = res.locals.context;
     const friendEmail = req.body.userEmail;
 
     await userService.sendFriendRequest(userId, friendEmail);
 
     res.status(200).send("Request Sent");
+
 })
 
 userRouter.delete('/request/:friendId', withAuth, async (req, res) => {

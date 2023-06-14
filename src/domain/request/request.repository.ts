@@ -38,4 +38,18 @@ export class RequestRepository{
             }
         })
     }
+
+    async getFriendRequest(userId: number, friendId: number): Promise<boolean>{
+        const request = await this.db.friendRequest.findUnique({
+            where: {
+                
+            }
+        })
+        if(request){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

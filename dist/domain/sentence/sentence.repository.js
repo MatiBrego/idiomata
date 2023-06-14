@@ -55,11 +55,12 @@ class SentenceRepository {
             });
         });
     }
-    getSentences(searchLanguage) {
+    getSentences(searchLanguage, difficulty) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.db.sentence.findMany({
                 where: {
-                    language: { name: searchLanguage }
+                    language: { name: searchLanguage },
+                    difficulty: difficulty
                 },
                 select: {
                     id: true,

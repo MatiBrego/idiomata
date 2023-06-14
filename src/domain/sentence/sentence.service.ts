@@ -1,3 +1,4 @@
+import { Difficulty } from "@prisma/client";
 import { SentenceDto, SentenceInputDto } from "./sentence.dto";
 import { SentenceRepository } from "./sentence.repository";
 
@@ -8,8 +9,8 @@ export class SentenceService{
         return await this.sentenceRepository.createSentence(input);
     }
 
-    async getSentencesByLanguage(language: string){
-        return await this.sentenceRepository.getSentences(language)
+    async getSentencesByLanguage(language: string, difficulty: Difficulty | undefined){
+        return await this.sentenceRepository.getSentences(language, difficulty)
     }
 
     async deleteSentenceById(id: number){
@@ -18,7 +19,6 @@ export class SentenceService{
 
     async updateSentence(sentence: SentenceDto){
         await this.sentenceRepository.deleteSentenceById(sentence.id);
-        console.log(sentence)
         return await this.sentenceRepository.createSentence({language: sentence.language, parts: sentence.parts, wordsInEnglish: sentence.blanks,difficulty: sentence.difficulty})
     }
 }

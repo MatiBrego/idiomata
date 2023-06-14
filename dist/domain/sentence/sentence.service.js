@@ -19,9 +19,9 @@ class SentenceService {
             return yield this.sentenceRepository.createSentence(input);
         });
     }
-    getSentencesByLanguage(language) {
+    getSentencesByLanguage(language, difficulty) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.sentenceRepository.getSentences(language);
+            return yield this.sentenceRepository.getSentences(language, difficulty);
         });
     }
     deleteSentenceById(id) {
@@ -32,7 +32,6 @@ class SentenceService {
     updateSentence(sentence) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.sentenceRepository.deleteSentenceById(sentence.id);
-            console.log(sentence);
             return yield this.sentenceRepository.createSentence({ language: sentence.language, parts: sentence.parts, wordsInEnglish: sentence.blanks, difficulty: sentence.difficulty });
         });
     }

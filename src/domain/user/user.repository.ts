@@ -158,4 +158,21 @@ export class UserRepository {
 
         return requests
     }
+
+    async searchIfAlreadyFriends(userId: number, friendId: number): Promise<boolean>{
+        const friends = await this.db.user.findUnique({
+            where: {id: userId},
+            include:{
+                friends:{
+                    select:{id: true}
+                }
+            }
+        })
+        if(friends?.friends.some((friend) => friend.id === friendId)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

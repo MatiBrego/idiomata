@@ -52,5 +52,21 @@ class RequestRepository {
             });
         });
     }
+    getFriendRequest(userId, friendId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const request = yield this.db.friendRequest.findMany({
+                where: {
+                    requesterId: userId,
+                    requestedId: friendId
+                }
+            });
+            if (request.some((request) => request.requesterId === userId && request.requestedId === friendId)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    }
 }
 exports.RequestRepository = RequestRepository;

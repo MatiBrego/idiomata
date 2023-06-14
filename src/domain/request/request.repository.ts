@@ -21,7 +21,7 @@ export class RequestRepository{
                             requestedId: userId
                             },
                             {
-                                requesterId: friendId
+                            requesterId: friendId
                             }
                         ]
                     },
@@ -40,12 +40,13 @@ export class RequestRepository{
     }
 
     async getFriendRequest(userId: number, friendId: number): Promise<boolean>{
-        const request = await this.db.friendRequest.findUnique({
-            where: {
-                
+        const request = await this.db.friendRequest.findMany({
+            where:{
+                requesterId: userId,
+                requestedId: friendId
             }
         })
-        if(request){
+        if(request.some((request) => request.requesterId === userId && request.requestedId === friendId)){
             return true;
         }
         else{

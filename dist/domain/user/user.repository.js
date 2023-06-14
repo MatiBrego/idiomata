@@ -179,5 +179,23 @@ class UserRepository {
             return requests;
         });
     }
+    searchIfAlreadyFriends(userId, friendId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const friends = yield this.db.user.findUnique({
+                where: { id: userId },
+                include: {
+                    friends: {
+                        select: { id: true }
+                    }
+                }
+            });
+            if (friends === null || friends === void 0 ? void 0 : friends.friends.some((friend) => friend.id === friendId)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    }
 }
 exports.UserRepository = UserRepository;

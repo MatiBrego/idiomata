@@ -47,10 +47,11 @@ export const validateFriendRequest = async (req: Request, res: Response, next: a
     const userId = res.locals.context
     const friend = await userRepository.getUserByEmail(friendEmail);
     const friendRequests = await requestRepository.getFriendRequest(userId, Number(friend?.id));
+    const areFriends = await userRepository.searchIfAlreadyFriends(userId, Number(friend?.id));
 
-    console.log(friendRequests)
 
     if(friend?.id === userId){return res.status(400).send("Cannot add yourself as a friend")}
+    if(areFriends === true){return res.status(400).send("Already friends")}
     if(friendRequests === true){return res.status(400).send("Request already sent")}
     else{
         next()

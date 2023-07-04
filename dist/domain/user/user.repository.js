@@ -18,7 +18,7 @@ class UserRepository {
     create(user) {
         return __awaiter(this, void 0, void 0, function* () {
             const userResult = yield this.db.user.create({
-                data: user
+                data: { name: user.name, language: { connect: { name: user.language } }, email: user.email, password: user.password }
             });
             return userResult;
         });
@@ -30,6 +30,16 @@ class UserRepository {
                     email: userEmail
                 }
             });
+        });
+    }
+    getUserLanguage(userId) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.db.user.findUnique({
+                where: { id: userId },
+                select: { language: { select: { name: true } } }
+            });
+            return (_a = result === null || result === void 0 ? void 0 : result.language) === null || _a === void 0 ? void 0 : _a.name;
         });
     }
     changePassword(userId, newPassword) {
@@ -56,15 +66,29 @@ class UserRepository {
             });
         });
     }
+    changeLanguage(userId, newLanguage) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.db.user.update({
+                where: {
+                    id: userId
+                },
+                data: {
+                    language: { connect: { name: newLanguage } }
+                }
+            });
+        });
+    }
     getUserById(userId) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const userResult = yield this.db.user.findUnique({
                 where: {
                     id: userId
-                }
+                },
+                include: { language: { select: { name: true } } }
             });
             if (userResult) {
-                return new user_dto_1.UserDto(userResult);
+                return new user_dto_1.UserDto({ id: userResult.id, name: userResult.name, email: userResult.email, password: userResult.password, languageId: userResult.languageId, language: (_a = userResult.language) === null || _a === void 0 ? void 0 : _a.name });
             }
             else {
                 return null;

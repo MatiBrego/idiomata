@@ -47,6 +47,15 @@ userRouter.put('/updateEmail', validateUserBody, withAuth, async (req, res) => {
     res.send("Email updated")
 })
 
+userRouter.put('/updateLanguage', withAuth, async (req, res) => {
+    const userId = res.locals.context;
+
+    const newLanguage = req.body.language;
+
+    await userService.changeUsersLanguage(Number(userId), newLanguage);
+    res.send("Language updated")
+})
+
 userRouter.get('/userData', withAuth, async(req, res) => {
     const userId = res.locals.context;
 

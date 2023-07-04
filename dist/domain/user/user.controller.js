@@ -41,6 +41,12 @@ exports.userRouter.put('/updateEmail', user_1.validateUserBody, auth_1.withAuth,
     yield userService.changeUsersEmail(Number(userId), newEmail);
     res.send("Email updated");
 }));
+exports.userRouter.put('/updateLanguage', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = res.locals.context;
+    const newLanguage = req.body.language;
+    yield userService.changeUsersLanguage(Number(userId), newLanguage);
+    res.send("Language updated");
+}));
 exports.userRouter.get('/userData', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = res.locals.context;
     const info = yield userService.getUserById(userId);

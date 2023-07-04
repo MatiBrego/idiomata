@@ -7,6 +7,7 @@ class UserDto {
         this.name = user.name;
         this.email = user.email;
         this.password = user.password;
+        this.languageId = user.languageId;
         this.language = user.language;
         this.isAdmin = user.isAdmin;
     }

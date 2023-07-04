@@ -19,6 +19,10 @@ export class UserService{
 
     async changeUsersEmail(userId: number, newEmail: string): Promise<void>{
         await this.repository.changeEmail(userId, newEmail);
+    }    
+
+    async changeUsersLanguage(userId: number, newLanguage: string): Promise<void>{
+        await this.repository.changeLanguage(userId, newLanguage);
     }
 
     async getUserById(userId: number): Promise<UserDto | null>{

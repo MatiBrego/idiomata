@@ -7,7 +7,7 @@ export class UserRepository {
 
     async create(user: UserInputDto): Promise<UserDto>{
         const userResult = await this.db.user.create({
-            data: user
+            data: {name: user.name, language: {connect: {name: user.language}}, email: user.email, password: user.password}
         })
         return userResult
     }
@@ -18,6 +18,15 @@ export class UserRepository {
                 email: userEmail
             }
         })
+    }
+
+    async getUserLanguage(userId: number): Promise<string | undefined>{
+        const result = await this.db.user.findUnique({
+                where: {id: userId},
+                select: {language: {select: {name: true}}}
+            })
+
+        return result?.language?.name
     }
 
     async changePassword(userId: number, newPassword: string): Promise<void>{
@@ -42,14 +51,26 @@ export class UserRepository {
         })
     }
 
+    async changeLanguage(userId: number, newLanguage: string): Promise<void>{
+        await this.db.user.update({
+            where: {
+                id: userId
+            },
+            data:{
+                language: {connect: {name: newLanguage}}
+            }
+        })
+    }
+
     async getUserById(userId:number): Promise<UserDto | null> {
         const userResult = await this.db.user.findUnique({
             where:{
                 id: userId
-            }
+            },
+            include: {language: {select: {name:true}}}
         })
         if(userResult){
-            return new UserDto(userResult);
+            return new UserDto({id: userResult.id, name: userResult.name, email: userResult.email, password: userResult.password, languageId: userResult.languageId, language: userResult.language?.name});
         }
         else{
             return null;

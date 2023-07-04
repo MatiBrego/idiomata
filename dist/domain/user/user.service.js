@@ -35,6 +35,11 @@ class UserService {
             yield this.repository.changeEmail(userId, newEmail);
         });
     }
+    changeUsersLanguage(userId, newLanguage) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.repository.changeLanguage(userId, newLanguage);
+        });
+    }
     getUserById(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.repository.getUserById(userId);

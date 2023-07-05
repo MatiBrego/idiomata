@@ -64,6 +64,14 @@ userRouter.get('/userData', withAuth, async(req, res) => {
     res.json(info)
 })
 
+userRouter.get('/userLanguage', withAuth, async (req, res) => {
+    const userId = res.locals.context
+
+    const user = await userService.getUserById(userId);
+
+    res.json({language: user?.language})
+})
+
 userRouter.put('/addFriend', withAuth, async (req, res) => {
     const userId = res.locals.context;
     const friendId = req.body.id;

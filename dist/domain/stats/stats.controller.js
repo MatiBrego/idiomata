@@ -15,7 +15,11 @@ const stats_service_1 = require("./stats.service");
 const stats_repository_1 = require("./stats.repository");
 const db_1 = require("../../utils/db");
 const auth_1 = require("../../utils/auth");
+const user_service_1 = require("../user/user.service");
+const user_repository_1 = require("../user/user.repository");
+const request_repository_1 = require("../request/request.repository");
 const statsService = new stats_service_1.StatsService(new stats_repository_1.StatsRepository(db_1.db));
+const userService = new user_service_1.UserService(new user_repository_1.UserRepository(db_1.db), new request_repository_1.RequestRepository(db_1.db));
 exports.statsRouter = (0, express_1.Router)();
 // Endpoint to save a word attempt by a user.
 exports.statsRouter.post('/wordAttempt', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -36,5 +40,21 @@ exports.statsRouter.get('/wordAttempt/errorsByWord', auth_1.withAuth, (req, res)
     const data = req.query;
     const userId = res.locals.context;
     const attempts = yield statsService.getAttemptsByWord(userId, data);
+    res.status(200).json(attempts);
+}));
+// Enpoint to get all attempts made by a user's ID. QueryParams must have language, may have category and difficulty
+exports.statsRouter.get('/wordAttemptById', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.query;
+    const userId = data.userId;
+    const userData = yield userService.getUserById(Number(userId));
+    const attempts = yield statsService.getWordAttemptsByUserId(Number(userId), { language: (userData === null || userData === void 0 ? void 0 : userData.language) ? userData.language : undefined });
+    res.status(200).json(attempts);
+}));
+//Returns wordAttempts with the quantity of errors made in each word, in descending order by user's ID
+exports.statsRouter.get('/wordAttempt/errorsByWordById', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.query;
+    const userId = data.userId;
+    const userData = yield userService.getUserById(Number(userId));
+    const attempts = yield statsService.getAttemptsByWord(Number(userId), { language: (userData === null || userData === void 0 ? void 0 : userData.language) ? userData.language : undefined });
     res.status(200).json(attempts);
 }));

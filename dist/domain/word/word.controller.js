@@ -8,6 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.wordRouter = void 0;
 const express_1 = require("express");
@@ -16,19 +19,39 @@ const word_repository_1 = require("./word.repository");
 const db_1 = require("../../utils/db");
 const translation_1 = require("../../utils/validation/translation");
 const word_1 = require("../../utils/validation/word");
+const multer_1 = __importDefault(require("multer"));
+const parse_1 = require("../../utils/parse");
+const category_repository_1 = require("../category/category.repository");
+const language_repository_1 = require("../language/language.repository");
 exports.wordRouter = (0, express_1.Router)();
-const wordService = new word_service_1.WordService(new word_repository_1.WordRepository(db_1.db));
+const wordService = new word_service_1.WordService(new word_repository_1.WordRepository(db_1.db), new category_repository_1.CategoryRepository(db_1.db), new language_repository_1.LanguageRepository(db_1.db));
 // Endpoint to create a word
 exports.wordRouter.post("/", word_1.validateWordBody, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const wordCreated = yield wordService.createWord(data);
     res.status(200).json(wordCreated);
 }));
+exports.wordRouter.post("/upload", (0, multer_1.default)().single("file"), parse_1.parseFileToCsv, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const wordList = req.body;
+    const result = yield wordService.uploadWordsFromList(wordList);
+    if (result === null) {
+        return res.status(400).json("Csv format must be: 'word,category'");
+    }
+    res.status(200).json(result);
+}));
 // Endpoint to add a translation
 exports.wordRouter.post("/translation", translation_1.validateTranslationBody, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const translationCreated = yield wordService.addTranslation(data);
     res.status(200).json(translationCreated);
+}));
+exports.wordRouter.post("/upload/translations", (0, multer_1.default)().single("file"), parse_1.parseFileToCsv, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const wordList = req.body;
+    const result = yield wordService.uploadTranslationsFromList(wordList);
+    if (result === null) {
+        return res.status(400).json("Csv format must be: 'wordInEnglish, translation, language, difficulty'");
+    }
+    res.status(200).json(result);
 }));
 // Endpoint to get many words. Body must have language; can have category and difficulty
 exports.wordRouter.post("/wordlist", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

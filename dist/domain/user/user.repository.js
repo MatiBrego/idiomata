@@ -88,7 +88,6 @@ class UserRepository {
                 include: { language: { select: { name: true } } }
             });
             if (userResult) {
-                console.log(userResult);
                 return new user_dto_1.UserDto({ id: userResult.id, name: userResult.name, email: userResult.email, password: userResult.password, languageId: userResult.languageId, language: (_a = userResult.language) === null || _a === void 0 ? void 0 : _a.name, isAdmin: userResult.isAdmin });
             }
             else {

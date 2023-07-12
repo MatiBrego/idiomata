@@ -70,7 +70,6 @@ export class UserRepository {
             include: {language: {select: {name:true}}}
         })
         if(userResult){
-            console.log(userResult)
             return new UserDto({id: userResult.id, name: userResult.name, email: userResult.email, password: userResult.password, languageId: userResult.languageId, language: userResult.language?.name, isAdmin: userResult.isAdmin});
         }
         else{

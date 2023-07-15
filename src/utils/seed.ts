@@ -8,8 +8,8 @@ export async function resetDb(){
     await db.word.deleteMany()
     await db.wordAttempt.deleteMany()
 
-    createUsers()
     const languagesId = await createLanguages()
+    createUsers()
     const categoryIds = await createCategories()
     const wordsId = await createWords(categoryIds)
     createTranslations(wordsId, languagesId)  
@@ -24,7 +24,7 @@ async function createUsers(){
                 name: "user" + i,
                 password: String(i),
                 email: "user"+i+"@gmail.com",
-                language: "spanish"
+                language: {connect: {name: "spanish"}}
             }
         })
     }

@@ -19,8 +19,8 @@ function resetDb() {
         yield db_1.db.user.deleteMany();
         yield db_1.db.word.deleteMany();
         yield db_1.db.wordAttempt.deleteMany();
-        createUsers();
         const languagesId = yield createLanguages();
+        createUsers();
         const categoryIds = yield createCategories();
         const wordsId = yield createWords(categoryIds);
         createTranslations(wordsId, languagesId);
@@ -37,7 +37,7 @@ function createUsers() {
                     name: "user" + i,
                     password: String(i),
                     email: "user" + i + "@gmail.com",
-                    language: "spanish"
+                    language: { connect: { name: "spanish" } }
                 }
             });
         }

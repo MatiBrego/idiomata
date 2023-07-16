@@ -44,5 +44,23 @@ class StatsService {
             return result;
         });
     }
+    createMemotestAttempt(userId, timeInSeconds) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const prevTime = yield this.repository.getMemotestAttemptByUserId(userId);
+            if (prevTime) {
+                if (timeInSeconds < prevTime.bestTime) {
+                    yield this.repository.updateMemotestAttempt(userId, timeInSeconds);
+                }
+            }
+            else {
+                yield this.repository.createMemotestAttempt(userId, timeInSeconds);
+            }
+        });
+    }
+    getMemotestAttemptByUserId(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getMemotestAttemptByUserId(userId);
+        });
+    }
 }
 exports.StatsService = StatsService;

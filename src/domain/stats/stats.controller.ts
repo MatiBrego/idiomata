@@ -65,3 +65,21 @@ statsRouter.get('/wordAttempt/errorsByWordById', async (req: Request<{}, {}, {},
 
     res.status(200).json(attempts)
 })
+
+statsRouter.post('/memotest/attempt', withAuth, async (req, res) => {
+    const timeInSeconds = req.body.timeInSeconds
+
+    const userId = res.locals.context
+
+    const attempt = await statsService.createMemotestAttempt(userId, timeInSeconds)
+
+    res.status(200).json(attempt)
+})
+
+statsRouter.get('/memotest/bestTime', withAuth, async (req, res) => {
+    const userId = res.locals.context
+
+    const attempt = await statsService.getMemotestAttemptByUserId(userId)
+
+    res.status(200).json(attempt)
+})

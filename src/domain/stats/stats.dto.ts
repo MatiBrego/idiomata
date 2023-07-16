@@ -42,3 +42,13 @@ export class WordAttemptSearchInputDto{
         this.game = attempt.game
     }    
 }
+
+export class MemotestAttemptDto{
+    userId: number
+    timeInSeconds: number
+
+    constructor(attempt: MemotestAttemptDto){
+        this.userId = attempt.userId
+        this.timeInSeconds = attempt.timeInSeconds
+    }
+}

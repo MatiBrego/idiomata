@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WordAttemptSearchInputDto = exports.WordAttemptDto = exports.WordAttemptInputDto = void 0;
+exports.MemotestAttemptDto = exports.WordAttemptSearchInputDto = exports.WordAttemptDto = exports.WordAttemptInputDto = void 0;
 class WordAttemptInputDto {
     constructor(attempt) {
         this.userId = attempt.userId;
@@ -28,3 +28,10 @@ class WordAttemptSearchInputDto {
     }
 }
 exports.WordAttemptSearchInputDto = WordAttemptSearchInputDto;
+class MemotestAttemptDto {
+    constructor(attempt) {
+        this.userId = attempt.userId;
+        this.timeInSeconds = attempt.timeInSeconds;
+    }
+}
+exports.MemotestAttemptDto = MemotestAttemptDto;

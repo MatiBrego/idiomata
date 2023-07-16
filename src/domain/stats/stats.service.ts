@@ -1,4 +1,5 @@
-import { WordAttemptDto, WordAttemptInputDto, WordAttemptSearchInputDto } from "./stats.dto";
+import internal from "stream";
+import { MemotestAttemptDto, WordAttemptDto, WordAttemptInputDto, WordAttemptSearchInputDto } from "./stats.dto";
 import { StatsRepository } from "./stats.repository";
 
 export class StatsService{
@@ -29,5 +30,20 @@ export class StatsService{
             return 0
         })
         return result
+    }
+
+    async createMemotestAttempt(userId: number,timeInSeconds: number): Promise<void> {
+        const prevTime = await this.repository.getMemotestAttemptByUserId(userId) 
+        if(prevTime){
+            if(timeInSeconds < prevTime.bestTime){
+                await this.repository.updateMemotestAttempt(userId, timeInSeconds)
+            }
+        }else{
+            await this.repository.createMemotestAttempt(userId, timeInSeconds)
+        }
+    }
+
+    async getMemotestAttemptByUserId(userId: number): Promise<{bestTime: number} | null>{
+        return await this.repository.getMemotestAttemptByUserId(userId)
     }
 }

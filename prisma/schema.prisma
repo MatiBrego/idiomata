@@ -26,6 +26,7 @@ model User {
 
   wordAttempts WordAttempt[] @relation("wordAttempt")
   language Language? @relation("userLanguage", fields: [languageId], references: [id])
+  memotestStats MemotestStats[] @relation("memotestStats")
 }
 
 model Category{
@@ -134,4 +135,12 @@ enum Game{
   TranslateIt
   FillInTheGaps
   Memotest
+}
+
+model MemotestStats{
+  id Int @id @default(autoincrement())
+  bestTime Int //In seconds
+  userId Int @unique
+
+  user User @relation("memotestStats", fields: [userId], references: [id], onDelete: Cascade)
 }

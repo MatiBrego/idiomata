@@ -1,13 +1,17 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { WordService } from "./word.service";
 import { WordRepository } from "./word.repository";
 import { db } from "../../utils/db";
 import { validateTranslationBody } from "../../utils/validation/translation";
 import { validateWordBody, validateWordUpdateBody } from "../../utils/validation/word";
+import multer from "multer";
+import { parseFileToCsv } from "../../utils/parse";
+import { CategoryRepository } from "../category/category.repository";
+import { LanguageRepository } from "../language/language.repository";
 
 export const wordRouter = Router();
 
-const wordService = new WordService(new WordRepository(db));
+const wordService = new WordService(new WordRepository(db), new CategoryRepository(db), new LanguageRepository(db));
 
 
 // Endpoint to create a word
@@ -19,6 +23,19 @@ wordRouter.post("/", validateWordBody, async (req, res) => {
     res.status(200).json(wordCreated)
 })
 
+wordRouter.post("/upload", multer().single("file"), parseFileToCsv, async (req, res) => {
+
+    const wordList = req.body
+
+    const result = await wordService.uploadWordsFromList(wordList)
+
+    if(result === null){
+        return res.status(400).json("Csv format must be: 'word,category'")
+    }
+
+    res.status(200).json(result)  
+})
+
 // Endpoint to add a translation
 wordRouter.post("/translation", validateTranslationBody, async (req, res) => {
     const data = req.body
@@ -26,6 +43,19 @@ wordRouter.post("/translation", validateTranslationBody, async (req, res) => {
     const translationCreated = await wordService.addTranslation(data)
 
     res.status(200).json(translationCreated)
+})
+
+wordRouter.post("/upload/translations", multer().single("file"), parseFileToCsv, async (req, res) => {
+
+    const wordList = req.body
+
+    const result = await wordService.uploadTranslationsFromList(wordList)
+
+    if(result === null){
+        return res.status(400).json("Csv format must be: 'wordInEnglish, translation, language, difficulty'")
+    }
+
+    res.status(200).json(result)  
 })
 
 // Endpoint to get many words. Body must have language; can have category and difficulty
@@ -63,4 +93,9 @@ wordRouter.post("/update", validateWordUpdateBody, async (req, res) => {
     const newWord = req.body.newWord
     await wordService.updateWord(oldWord, newWord)
     res.status(200).send("Word updated")
+})
+
+wordRouter.get("/all", async (req, res) => {
+    const words = await wordService.getAllWords()
+    res.status(200).json(words)
 })

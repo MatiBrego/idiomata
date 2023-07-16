@@ -58,3 +58,14 @@ exports.statsRouter.get('/wordAttempt/errorsByWordById', (req, res) => __awaiter
     const attempts = yield statsService.getAttemptsByWord(Number(userId), { language: (userData === null || userData === void 0 ? void 0 : userData.language) ? userData.language : undefined });
     res.status(200).json(attempts);
 }));
+exports.statsRouter.post('/memotest/attempt', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const timeInSeconds = req.body.timeInSeconds;
+    const userId = res.locals.context;
+    const attempt = yield statsService.createMemotestAttempt(userId, timeInSeconds);
+    res.status(200).json(attempt);
+}));
+exports.statsRouter.get('/memotest/bestTime', auth_1.withAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = res.locals.context;
+    const attempt = yield statsService.getMemotestAttemptByUserId(userId);
+    res.status(200).json(attempt);
+}));

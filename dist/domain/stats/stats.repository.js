@@ -85,5 +85,32 @@ class StatsRepository {
             return attempts;
         });
     }
+    createMemotestAttempt(userId, timeInSeconds) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const attempt = yield this.db.memotestStats.create({
+                data: {
+                    user: { connect: { id: userId } },
+                    bestTime: timeInSeconds
+                }
+            });
+        });
+    }
+    updateMemotestAttempt(userId, timeInSeconds) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const attempt = yield this.db.memotestStats.update({
+                where: { userId: userId },
+                data: { bestTime: timeInSeconds }
+            });
+        });
+    }
+    getMemotestAttemptByUserId(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const attempt = yield this.db.memotestStats.findUnique({
+                where: { userId: userId },
+                select: { bestTime: true }
+            });
+            return attempt ? { bestTime: attempt.bestTime } : null;
+        });
+    }
 }
 exports.StatsRepository = StatsRepository;

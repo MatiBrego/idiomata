@@ -72,4 +72,29 @@ export class StatsRepository{
 
         return attempts
     }
+
+    async createMemotestAttempt(userId: number, timeInSeconds: number){
+        const attempt = await this.db.memotestStats.create({
+            data: {
+                user: {connect: {id: userId}},
+                bestTime: timeInSeconds
+            }
+        })
+    }
+
+    async updateMemotestAttempt(userId: number, timeInSeconds: number){
+        const attempt = await this.db.memotestStats.update({
+            where: {userId: userId},
+            data: {bestTime: timeInSeconds}
+        })
+    }
+
+    async getMemotestAttemptByUserId(userId: number): Promise<{bestTime: number} | null>{
+        const attempt = await this.db.memotestStats.findUnique({
+            where: {userId: userId},
+            select: {bestTime: true}
+        })
+
+        return attempt? {bestTime: attempt.bestTime}: null
+    }
 }

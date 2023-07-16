@@ -31,7 +31,8 @@ class StatsService {
             const result = [];
             //Add word and error number to result for each word
             words.forEach(word => {
-                result.push({ word: word.inEnglish, errors: word.wordAttempts.length });
+                if (word.wordAttempts.length > 0)
+                    result.push({ word: word.inEnglish, errors: word.wordAttempts.length });
             });
             //Sort by errors, descending order
             result.sort((a, b) => {
@@ -42,6 +43,24 @@ class StatsService {
                 return 0;
             });
             return result;
+        });
+    }
+    createMemotestAttempt(userId, timeInSeconds) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const prevTime = yield this.repository.getMemotestAttemptByUserId(userId);
+            if (prevTime) {
+                if (timeInSeconds < prevTime.bestTime) {
+                    yield this.repository.updateMemotestAttempt(userId, timeInSeconds);
+                }
+            }
+            else {
+                yield this.repository.createMemotestAttempt(userId, timeInSeconds);
+            }
+        });
+    }
+    getMemotestAttemptByUserId(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getMemotestAttemptByUserId(userId);
         });
     }
 }

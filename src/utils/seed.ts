@@ -9,7 +9,6 @@ export async function resetDb(){
     await db.word.deleteMany()
     await db.wordAttempt.deleteMany()
 
-    
     const languagesId = await createLanguages()
     createUsers()
     const categoryIds = await createCategories()

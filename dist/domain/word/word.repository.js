@@ -129,5 +129,11 @@ class WordRepository {
             });
         });
     }
+    getAllWords() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const words = yield this.db.word.findMany();
+            return words.map((word) => { return new word_dto_1.WordDto(word); });
+        });
+    }
 }
 exports.WordRepository = WordRepository;

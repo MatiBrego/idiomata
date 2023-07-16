@@ -94,3 +94,8 @@ wordRouter.post("/update", validateWordUpdateBody, async (req, res) => {
     await wordService.updateWord(oldWord, newWord)
     res.status(200).send("Word updated")
 })
+
+wordRouter.get("/all", async (req, res) => {
+    const words = await wordService.getAllWords()
+    res.status(200).json(words)
+})

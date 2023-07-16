@@ -114,4 +114,9 @@ export class WordRepository{
             data: {inEnglish: newWord}
         })
     }
+
+    async getAllWords(): Promise<WordDto[]>{
+        const words = await this.db.word.findMany()
+        return words.map((word) => {return new WordDto(word)})
+    }
 }

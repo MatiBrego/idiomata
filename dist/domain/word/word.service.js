@@ -112,5 +112,12 @@ class WordService {
             yield this.repository.updateWord(oldWord, newWord);
         });
     }
+    getAllWords() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const words = yield this.repository.getAllWords();
+            words.sort((a, b) => { return a.inEnglish.localeCompare(b.inEnglish); });
+            return words;
+        });
+    }
 }
 exports.WordService = WordService;

@@ -101,4 +101,10 @@ export class WordService{
     async updateWord(oldWord: string, newWord: string){
         await this.repository.updateWord(oldWord, newWord);
     }
+
+    async getAllWords(): Promise<WordDto[]>{
+        const words = await this.repository.getAllWords();
+        words.sort((a, b) => {return a.inEnglish.localeCompare(b.inEnglish)})
+        return words;
+    }
 }

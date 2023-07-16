@@ -80,3 +80,7 @@ exports.wordRouter.post("/update", word_1.validateWordUpdateBody, (req, res) => 
     yield wordService.updateWord(oldWord, newWord);
     res.status(200).send("Word updated");
 }));
+exports.wordRouter.get("/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const words = yield wordService.getAllWords();
+    res.status(200).json(words);
+}));

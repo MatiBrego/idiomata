@@ -32,6 +32,7 @@ model User {
 model Category{
   id Int @id @default(autoincrement())
   name String @unique
+  imgPath String @default("categoryImages/tags_categories_icon_145927.png")
   words Word[] @relation("word") // One to many relationship
 }
 

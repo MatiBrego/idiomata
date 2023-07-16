@@ -8,14 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryService = void 0;
+const fs_1 = __importDefault(require("fs"));
 class CategoryService {
     constructor(repository) {
         this.repository = repository;
     }
-    createCategory(category) {
+    createCategory(category, file) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (file) {
+                fs_1.default.writeFile(__dirname + '/categoryImages/' + category.imgPath, file.buffer, (err) => { console.log(err); });
+            }
             return yield this.repository.create(category);
         });
     }
@@ -32,6 +39,11 @@ class CategoryService {
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.repository.getAll();
+        });
+    }
+    getImageByName(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.getImageByName(name);
         });
     }
 }

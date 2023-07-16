@@ -31,7 +31,8 @@ class StatsService {
             const result = [];
             //Add word and error number to result for each word
             words.forEach(word => {
-                result.push({ word: word.inEnglish, errors: word.wordAttempts.length });
+                if (word.wordAttempts.length > 0)
+                    result.push({ word: word.inEnglish, errors: word.wordAttempts.length });
             });
             //Sort by errors, descending order
             result.sort((a, b) => {

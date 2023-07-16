@@ -1,3 +1,4 @@
+import { connect } from "http2"
 import { db } from "./db"
 
 export async function resetDb(){
@@ -8,8 +9,9 @@ export async function resetDb(){
     await db.word.deleteMany()
     await db.wordAttempt.deleteMany()
 
-    createUsers()
+    
     const languagesId = await createLanguages()
+    createUsers()
     const categoryIds = await createCategories()
     const wordsId = await createWords(categoryIds)
     createTranslations(wordsId, languagesId)  
@@ -24,7 +26,7 @@ async function createUsers(){
                 name: "user" + i,
                 password: String(i),
                 email: "user"+i+"@gmail.com",
-                language: "spanish"
+                language: {connect: {name: "spanish"}}
             }
         })
     }
@@ -49,10 +51,10 @@ async function createLanguages(){
 async function createCategories() {
 
     const home = await db.category.create({
-        data: {name: "home"}
+        data: {name: "home", imgPath: ""}
     })
     const school = await db.category.create({
-        data: {name: "school"}
+        data: {name: "school", imgPath:""}
     })
 
     return [home.id, school.id]

@@ -7,7 +7,7 @@ export class CategoryRepository{
 
     async create(category: CategoryInputDto): Promise<CategoryDto>{
         const categoryResult = await this.db.category.create({
-            data:category
+            data: category
         })
         return categoryResult;
     }
@@ -42,5 +42,12 @@ export class CategoryRepository{
         })
 
         return category? new CategoryDto(category): null
+    }
+
+    async getImageByName(name: string): Promise<string | undefined>{
+        const image = await this.db.category.findUnique({
+            where: {name: name}
+        })
+        return image?.imgPath
     }
 }

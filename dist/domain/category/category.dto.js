@@ -5,12 +5,14 @@ class CategoryDto {
     constructor(category) {
         this.id = category.id;
         this.name = category.name;
+        this.imgPath = category.imgPath;
     }
 }
 exports.CategoryDto = CategoryDto;
 class CategoryInputDto {
     constructor(category) {
         this.name = category.name;
+        this.imgPath = category.imgPath;
     }
 }
 exports.CategoryInputDto = CategoryInputDto;

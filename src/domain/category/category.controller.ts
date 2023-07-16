@@ -3,13 +3,16 @@ import { db } from "../../utils/db";
 import { CategoryRepository } from "./category.repository";
 import { CategoryService } from "./category.service";
 import { validateCategoryBody } from "../../utils/validation/category";
+import multer from "multer";
+
 export const categoryRouter = Router();
 
 const categoryService = new CategoryService(new CategoryRepository(db))
 
-categoryRouter.post('/', validateCategoryBody, async(req,res) =>{
+categoryRouter.post('/', multer().single("file"), validateCategoryBody, async(req,res) =>{
     const category = req.body;
-    const result = await categoryService.createCategory(category)
+    const img = req.file;
+    const result = await categoryService.createCategory({name: category.name, imgPath: img?.originalname}, img)
     res.json(result);
 })
 
@@ -31,4 +34,13 @@ categoryRouter.get('/', async(req, res) =>{
     const response = await categoryService.getAll();
     res.status(200).send(response);
     })
-    
+
+categoryRouter.get('/images/:name', async(req, res) => {
+    const response = await categoryService.getImageByName(req.params.name);
+    if(response){
+        res.status(200).sendFile(__dirname+'/'+response);
+    }
+    else{
+        res.status(404);
+    }
+})

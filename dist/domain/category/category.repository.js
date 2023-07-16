@@ -58,5 +58,13 @@ class CategoryRepository {
             return category ? new category_dto_1.CategoryDto(category) : null;
         });
     }
+    getImageByName(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const image = yield this.db.category.findUnique({
+                where: { name: name }
+            });
+            return image === null || image === void 0 ? void 0 : image.imgPath;
+        });
+    }
 }
 exports.CategoryRepository = CategoryRepository;

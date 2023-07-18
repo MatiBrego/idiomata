@@ -38,7 +38,7 @@ class CategoryService {
     modifyCategory(categoryName, newCategoryName, newFile) {
         return __awaiter(this, void 0, void 0, function* () {
             if (newFile) {
-                fs_1.default.writeFile(__dirname + '/categoryImages/' + newFile, newFile.buffer, (err) => { console.log(err); });
+                fs_1.default.writeFile(__dirname + '/categoryImages/' + newFile.originalname, newFile.buffer, (err) => { console.log(err); });
                 return yield this.repository.modify(categoryName, newCategoryName, "categoryImages/" + newFile.originalname);
             }
             else {

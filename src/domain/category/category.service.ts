@@ -23,7 +23,7 @@ export class CategoryService{
 
     async modifyCategory(categoryName: string, newCategoryName:string, newFile?: Express.Multer.File): Promise<void>{
         if(newFile){
-            fs.writeFile(__dirname+'/categoryImages/'+newFile, newFile.buffer, (err) => {console.log(err)});
+            fs.writeFile(__dirname+'/categoryImages/'+newFile.originalname, newFile.buffer, (err) => {console.log(err)});
             return await this.repository.modify(categoryName, newCategoryName, "categoryImages/"+newFile.originalname)
         }
         else{

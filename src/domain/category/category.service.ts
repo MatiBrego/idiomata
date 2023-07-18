@@ -9,16 +9,26 @@ export class CategoryService{
     async createCategory(category: CategoryInputDto, file?: Express.Multer.File): Promise<CategoryDto>{
         if(file){
             fs.writeFile(__dirname+'/categoryImages/'+category.imgPath, file.buffer, (err) => {console.log(err)});
+            const newCategory = {name: category.name, imgPath: "categoryImages/"+category.imgPath}
+            return await this.repository.create(newCategory);
         }
-        return await this.repository.create(category);
+        else{
+            return await this.repository.create(category);
+        }
     }
 
     async deleteCategory(categoryName: string): Promise<void>{
         return await this.repository.delete(categoryName);
     }
 
-    async modifyCategory(categoryName: string, newCategoryName:string): Promise<void>{
-        return await this.repository.modify(categoryName,newCategoryName);
+    async modifyCategory(categoryName: string, newCategoryName:string, newFile?: Express.Multer.File): Promise<void>{
+        if(newFile){
+            fs.writeFile(__dirname+'/categoryImages/'+newFile, newFile.buffer, (err) => {console.log(err)});
+            return await this.repository.modify(categoryName, newCategoryName, "categoryImages/"+newFile.originalname)
+        }
+        else{
+            return await this.repository.modify(categoryName, newCategoryName, undefined)
+        }
     }
 
     async getAll(): Promise<String[]>{ 

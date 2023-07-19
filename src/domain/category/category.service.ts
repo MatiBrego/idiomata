@@ -9,8 +9,12 @@ export class CategoryService{
     async createCategory(category: CategoryInputDto, file?: Express.Multer.File): Promise<CategoryDto>{
         if(file){
             fs.writeFile(__dirname+'/categoryImages/'+category.imgPath, file.buffer, (err) => {console.log(err)});
+            const newCategory = {name: category.name, imgPath: "categoryImages/"+category.imgPath}
+            return await this.repository.create(newCategory);
         }
-        return await this.repository.create(category);
+        else{
+            return await this.repository.create(category);
+        }
     }
 
     async deleteCategory(categoryName: string): Promise<void>{

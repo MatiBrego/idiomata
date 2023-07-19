@@ -22,8 +22,12 @@ class CategoryService {
         return __awaiter(this, void 0, void 0, function* () {
             if (file) {
                 fs_1.default.writeFile(__dirname + '/categoryImages/' + category.imgPath, file.buffer, (err) => { console.log(err); });
+                const newCategory = { name: category.name, imgPath: "categoryImages/" + category.imgPath };
+                return yield this.repository.create(newCategory);
             }
-            return yield this.repository.create(category);
+            else {
+                return yield this.repository.create(category);
+            }
         });
     }
     deleteCategory(categoryName) {

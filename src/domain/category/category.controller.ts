@@ -22,12 +22,13 @@ categoryRouter.delete('/', async(req, res)=>{
     res.send(category + " was deleted")
 })
 
-categoryRouter.put('/', async(req, res) =>{
-    const category = req.body.name;
-    const modcategory = req.body.new_name;
+categoryRouter.put('/',multer().single('file') , async(req, res) =>{
+    const categoryName = req.body.name;
+    const newCategoryName = req.body.new_name;
+    const newImagePath = req.file;
 
-    await categoryService.modifyCategory(category, modcategory);
-    res.send(category + ' has changed name to ' + modcategory )
+    await categoryService.modifyCategory(categoryName, newCategoryName, newImagePath);
+    res.send(categoryName + ' has changed name to ' + newCategoryName + ' and the image has been updated correctly.')
 })
 
 categoryRouter.get('/', async(req, res) =>{

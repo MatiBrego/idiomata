@@ -32,14 +32,15 @@ class CategoryRepository {
             });
         });
     }
-    modify(categoryName, newCategoryName) {
+    modify(categoryName, newCategoryName, newCategoryImagePath) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.db.category.update({
                 where: {
                     name: categoryName
                 },
                 data: {
-                    name: newCategoryName
+                    name: newCategoryName,
+                    imgPath: newCategoryImagePath ? newCategoryImagePath : "categoryImages/tags_categories_icon_145927.png"
                 }
             });
         });

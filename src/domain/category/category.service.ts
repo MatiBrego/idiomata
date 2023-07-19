@@ -21,8 +21,14 @@ export class CategoryService{
         return await this.repository.delete(categoryName);
     }
 
-    async modifyCategory(categoryName: string, newCategoryName:string): Promise<void>{
-        return await this.repository.modify(categoryName,newCategoryName);
+    async modifyCategory(categoryName: string, newCategoryName:string, newFile?: Express.Multer.File): Promise<void>{
+        if(newFile){
+            fs.writeFile(__dirname+'/categoryImages/'+newFile.originalname, newFile.buffer, (err) => {console.log(err)});
+            return await this.repository.modify(categoryName, newCategoryName, "categoryImages/"+newFile.originalname)
+        }
+        else{
+            return await this.repository.modify(categoryName, newCategoryName, undefined)
+        }
     }
 
     async getAll(): Promise<String[]>{ 

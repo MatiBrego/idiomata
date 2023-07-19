@@ -35,9 +35,15 @@ class CategoryService {
             return yield this.repository.delete(categoryName);
         });
     }
-    modifyCategory(categoryName, newCategoryName) {
+    modifyCategory(categoryName, newCategoryName, newFile) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.repository.modify(categoryName, newCategoryName);
+            if (newFile) {
+                fs_1.default.writeFile(__dirname + '/categoryImages/' + newFile.originalname, newFile.buffer, (err) => { console.log(err); });
+                return yield this.repository.modify(categoryName, newCategoryName, "categoryImages/" + newFile.originalname);
+            }
+            else {
+                return yield this.repository.modify(categoryName, newCategoryName, undefined);
+            }
         });
     }
     getAll() {

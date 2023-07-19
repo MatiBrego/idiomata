@@ -20,13 +20,14 @@ export class CategoryRepository{
         })
     }
 
-    async modify(categoryName:string, newCategoryName:string):Promise<void>{
+    async modify(categoryName:string, newCategoryName:string, newCategoryImagePath: string|undefined):Promise<void>{
         await this.db.category.update({
             where:{
                 name: categoryName
             },
             data:{
-                name:newCategoryName
+                name:newCategoryName,
+                imgPath: newCategoryImagePath?newCategoryImagePath:"categoryImages/tags_categories_icon_145927.png"
             }
         })
     }

@@ -32,11 +32,12 @@ exports.categoryRouter.delete('/', (req, res) => __awaiter(void 0, void 0, void 
     yield categoryService.deleteCategory(category);
     res.send(category + " was deleted");
 }));
-exports.categoryRouter.put('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const category = req.body.name;
-    const modcategory = req.body.new_name;
-    yield categoryService.modifyCategory(category, modcategory);
-    res.send(category + ' has changed name to ' + modcategory);
+exports.categoryRouter.put('/', (0, multer_1.default)().single('file'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const categoryName = req.body.name;
+    const newCategoryName = req.body.new_name;
+    const newImagePath = req.file;
+    yield categoryService.modifyCategory(categoryName, newCategoryName, newImagePath);
+    res.send(categoryName + ' has changed name to ' + newCategoryName + ' and the image has been updated correctly.');
 }));
 exports.categoryRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield categoryService.getAll();
